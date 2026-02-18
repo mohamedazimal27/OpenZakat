@@ -8,7 +8,7 @@ import { Plus, Trash2, RefreshCw, AlertTriangle } from 'lucide-react';
 import { useStore } from '@/store';
 import { convertToBase } from '@/lib/calculation/currency';
 import { formatCurrency, hoursAgo, isStale } from '@/utils/formatters';
-import { CURRENCIES } from '@/data/currencies';
+import { SORTED_CURRENCIES } from '@/data/currencies';
 import { cn } from '@/components/common/cn';
 import type { CashAccount } from '@/types';
 
@@ -87,8 +87,8 @@ export function CashInput() {
                   onChange={(e) => handleCurrencyChange(account, e.target.value)}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
                 >
-                  {CURRENCIES.map((c) => (
-                    <option key={c.code} value={c.code}>{c.flag} {c.code}</option>
+                  {SORTED_CURRENCIES.map((c) => (
+                    <option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>
                   ))}
                 </select>
               </div>

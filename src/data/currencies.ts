@@ -110,6 +110,11 @@ export const CURRENCIES: CurrencyConfig[] = [
   { code: 'ISK', name: 'Icelandic Króna', symbol: 'kr', flag: '🇮🇸' },
 ];
 
+// Alphabetically sorted by currency name — use this in all dropdowns
+export const SORTED_CURRENCIES: CurrencyConfig[] = [...CURRENCIES].sort((a, b) =>
+  a.name.localeCompare(b.name)
+);
+
 export const getCurrencySymbol = (code: string): string => {
   return CURRENCIES.find((c) => c.code === code)?.symbol ?? code;
 };

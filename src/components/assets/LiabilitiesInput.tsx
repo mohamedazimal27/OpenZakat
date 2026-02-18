@@ -4,7 +4,7 @@ import { Plus, Trash2, Info } from 'lucide-react';
 import { useStore } from '@/store';
 import { convertToBase } from '@/lib/calculation/currency';
 import { formatCurrency } from '@/utils/formatters';
-import { CURRENCIES } from '@/data/currencies';
+import { SORTED_CURRENCIES } from '@/data/currencies';
 import { cn } from '@/components/common/cn';
 import type { DebtTerm } from '@/types';
 
@@ -83,7 +83,7 @@ export function LiabilitiesInput() {
                 <label className="block text-xs font-medium text-gray-600 mb-1">Currency</label>
                 <select value={liability.currency} onChange={(e) => updateLiability(liability.id, { currency: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
-                  {CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.flag} {c.code}</option>)}
+                  {SORTED_CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>)}
                 </select>
               </div>
               <div>

@@ -35,8 +35,19 @@ export function RegionalPresetModal() {
 
         {/* Body */}
         <div className="px-6 py-4">
-          <p className="mb-4 text-sm text-gray-600">
-            Select your situation for zero-friction setup:
+          {/* What does a preset do? */}
+          <div className="mb-4 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
+            <p className="text-xs font-semibold text-emerald-800 mb-1">⚡ One-click configuration — sets all at once:</p>
+            <ul className="text-xs text-emerald-700 space-y-0.5 list-none">
+              <li>✦ <strong>Base currency</strong> — all totals shown in your work country's currency</li>
+              <li>✦ <strong>Home currency</strong> — optional second display (e.g. INR for mental reference)</li>
+              <li>✦ <strong>Gold unit</strong> — Sovereign, Tola, etc. (no grams to convert manually)</li>
+              <li>✦ <strong>Number format</strong> — Indian (1,00,000) or International (100,000)</li>
+            </ul>
+            <p className="text-xs text-emerald-600 mt-2 italic">You can always change these individually using the dropdowns in the summary panel.</p>
+          </div>
+          <p className="mb-3 text-sm font-medium text-gray-700">
+            Select your situation:
           </p>
           <div className="space-y-2">
             {REGIONAL_PRESETS.map((preset) => (
