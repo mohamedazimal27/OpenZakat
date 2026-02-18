@@ -1,23 +1,24 @@
 
 ---
 
-# 📘 FINAL PRODUCT REQUIREMENTS DOCUMENT (PRD) v2.0
+# 📘 FINAL PRODUCT REQUIREMENTS DOCUMENT (PRD) v3.0
 
 ## **OpenZakat: Free Precision Zakat Calculator**
 ### GitHub Pages Hosted | 100% Client-Side | Open Source MIT
+### Repository: `https://github.com/mohamedazimal27/OpenZakat.git`
 
 ---
 
 ## 1. Executive Summary
 
-**OpenZakat** is a free, open-source Zakat calculator designed for global Muslims seeking precise, scholarly-backed calculations. Built specifically for **GitHub Pages static hosting**, it requires zero backend infrastructure while providing institutional-grade accuracy based on FCNA, AAOIFI, International Islamic Fiqh Academy, and NZF methodologies.
+**OpenZakat** is a free, open-source Zakat calculator designed for global Muslims—especially expats and multi-currency holders—seeking precise, scholarly-backed calculations without friction. Built specifically for **GitHub Pages static hosting** at `https://mohamedazimal27.github.io/OpenZakat/`, it requires zero backend infrastructure while providing institutional-grade accuracy based on FCNA, AAOIFI, International Islamic Fiqh Academy, and NZF methodologies.
 
 **Key Value Propositions:**
 - **100% Free Forever:** No servers, no databases, no API keys required for users
 - **Privacy-First:** All data stays in user's browser (localStorage only)
+- **Expat-Optimized:** Regional gold units (sovereign, tola), dual-currency display, quick stock input
 - **Scholarly Rigor:** Multiple valid methodologies with transparent source citations
-- **Modern Assets:** Handles crypto, retirement accounts, stocks, and business inventory
-- **Global Ready:** Multi-currency with intelligent fallback systems
+- **Zero Friction:** No mental math, no unit conversions, no external searches needed
 
 **Target User Personas:**
 | Persona | Needs | Key Features |
@@ -25,13 +26,149 @@
 | **New Muslim** | First-time Zakat calculation | Guided wizard, tooltips, educational content |
 | **Tech-Savvy Investor** | Complex portfolio (crypto, stocks, retirement) | Advanced asset modules, API integrations |
 | **Business Owner** | Inventory, receivables, liabilities | Business asset module, debt management |
+| **Expat Professional** (NEW) | Multi-currency, regional gold units, quick input | Sovereign/tola gold, dual SGD/INR display, stock total value mode |
 | **Scholar/Educator** | Methodology transparency, teaching tool | Source citations, toggle explanations, PDF reports |
 
 ---
 
-## 2. Architecture Design (GitHub Pages Optimized)
+## 2. User Stories
 
-### 2.1 System Architecture
+### 2.1 Primary User Story: Ahmad (Original)
+
+**Ahmad**, 32, software engineer in Dubai. First time calculating Zakat seriously. Has crypto, some gold jewelry, company stock options, and wants to do it right.
+
+**Journey:** Discovery → Settings → Gold → Cash → Crypto → Stocks → Retirement → Debts → Methodology → Results (8 minutes, zero external searches)
+
+**Key PRD Features Used:**
+- Silver Nisab default
+- Multi-currency cash (AED/USD)
+- Crypto wallet types
+- FCNA retirement method
+- Real-time methodology impact preview
+
+---
+
+### 2.2 Expat User Story: Mohamed (NEW - Critical Addition)
+
+**Mohamed**, 35, Indian software engineer working in Singapore. Paid in SGD, maintains savings in both SGD and INR, owns gold in sovereigns (not grams), tracks stocks by total value (not share count), has credit card bills.
+
+**The Friction Problem:**
+| What Mohamed Knows | What Traditional Calculators Ask | Friction |
+|-------------------|----------------------------------|----------|
+| "15 sovereigns of 22K gold" | "Weight in grams?" | Must Google: 1 sovereign = 8g |
+| "SGD 100,000 + INR 8 lakhs" | "Enter all in one currency" | Mental math: 8L INR = ? SGD |
+| "SGD 45,000 in stocks" | "How many shares?" | Doesn't track share count |
+| "DBS credit card bill" | "Enter liability amount" | OK, but could be smarter |
+
+**Mohamed's Journey with OpenZakat:**
+
+```
+Step 1: Regional Preset Selection
+┌─────────────────────────────────────────┐
+│  🌍 Quick Setup                         │
+│                                         │
+│  Select your situation:                 │
+│                                         │
+│  (•) Indian in Singapore                │
+│    → Base: SGD | Home: INR              │
+│    → Gold: Sovereign | Stocks: Quick    │
+│                                         │
+│  [Apply Preset]                         │
+└─────────────────────────────────────────┘
+
+Step 2: Gold Input (Zero Friction)
+┌─────────────────────────────────────────┐
+│  🥇 Gold Holding #1                     │
+│                                         │
+│  Unit: [Sovereign (India) ▼]            │
+│         ├── Grams (International)       │
+│         ├── Tola (South Asia)           │
+│         └── ...                         │
+│                                         │
+│  Weight: [    15    ] sovereigns        │
+│  = 120 grams (auto-converted)           │
+│                                         │
+│  Purity: [22K ▼]                        │
+│  Source: [India (91.6%) ▼]              │
+│                                         │
+│  Value: SGD 12,420 (live price)         │
+└─────────────────────────────────────────┘
+
+Step 3: Dual-Currency Cash Display
+┌─────────────────────────────────────────┐
+│  💰 Cash Accounts                       │
+│  Base: SGD | Home: INR ▼                │
+│                                         │
+│  DBS Singapore:      SGD 100,000        │
+│                       ≈ ₹ 62,50,000     │
+│                                         │
+│  ICICI India:        SGD  12,800         │
+│  (entered as ₹ 8,00,000)                │
+│                       ≈ ₹  8,00,000     │
+│                                         │
+│  ─────────────────────────────────────  │
+│  Total:              SGD 112,800          │
+│                       ≈ ₹ 70,50,000     │
+└─────────────────────────────────────────┘
+
+Step 4: Stock Quick Mode
+┌─────────────────────────────────────────┐
+│  📈 Stocks                              │
+│                                         │
+│  Input Mode: [Quick: Total Value ▼]     │
+│                                         │
+│  Total Market Value: [  SGD 45,000   ]  │
+│  Holding Type: [Long-term investment ▼] │
+│                                         │
+│  ℹ️ Using simplified 30% method           │
+│  (AAOIFI estimation)                    │
+│                                         │
+│  Zakatable: SGD 13,500                  │
+│  Zakat: SGD 337.50                      │
+│                                         │
+│  [Switch to detailed mode]              │
+└─────────────────────────────────────────┘
+
+Step 5: Smart Liability
+┌─────────────────────────────────────────┐
+│  💳 Credit Card Bill                    │
+│                                         │
+│  Bank: [DBS Credit Card ▼]              │
+│  Statement Balance: SGD 3,200           │
+│  Due Date: [2026-03-25]                 │
+│                                         │
+│  ✓ Auto-categorized: Short-term         │
+│  ✓ Deductible from Zakat assets         │
+└─────────────────────────────────────────┘
+
+Step 6: Results with Dual Currency
+┌─────────────────────────────────────────┐
+│  🎉 YOUR ZAKAT CALCULATION              │
+│  Method: Silver/Majority/FCNA           │
+│                                         │
+│  BASE (SGD)          HOME (INR)         │
+│  ─────────────────────────────────────  │
+│  Net Wealth:         SGD 187,937.50     │
+│                       ≈ ₹ 1,17,46,093   │
+│                                         │
+│  Nisab: SGD 7,240    ₹ 4,52,500         │
+│  Status: ✅ Met                           │
+│                                         │
+│  ZAKAT DUE:          SGD 4,698.44         │
+│                       ≈ ₹ 2,93,652        │
+│                                         │
+│  [📥 Download PDF]  [📋 Copy Summary]     │
+└─────────────────────────────────────────┘
+```
+
+**Time Saved:** 15 minutes → 6 minutes (60% reduction)
+**External Searches:** 3 (Google conversions) → 0
+
+---
+
+## 3. Architecture Design (GitHub Pages Optimized)
+
+### 3.1 System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -39,7 +176,7 @@
 │                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐ │
 │  │   React UI  │  │  Calculation│  │  localStorage Cache │ │
-│  │  Components │◄─┤   Engine    │◄─┤  (Preferences +     │ │
+│  │  Components │◄─┤   Engine    │◄─┤  (Preferences +   │ │
 │  │             │  │ (decimal.js)│  │   Session Data)     │ │
 │  └──────┬──────┘  └─────────────┘  └─────────────────────┘ │
 │         │                                                    │
@@ -68,7 +205,22 @@
               └─────────────────┘
 ```
 
-### 2.2 GitHub Pages Constraints & Solutions
+### 3.2 GitHub Repository Configuration
+
+**Remote URL:** `git@github.com:mohamedazimal27/OpenZakat.git`
+
+**GitHub Pages Settings:**
+- Source: Deploy from `gh-pages` branch
+- Custom domain: (optional) `zakatcalc.org` → CNAME file in `public/`
+- Default URL: `https://mohamedazimal27.github.io/OpenZakat/`
+
+**Environment Variables (GitHub Secrets):**
+| Secret | Used In | Purpose |
+|--------|---------|---------|
+| `GOLD_API_KEY` | `update-prices.yml` | Fetch daily gold/silver prices |
+| `GITHUB_TOKEN` | `deploy.yml` | Auto-deploy to GitHub Pages |
+
+### 3.3 GitHub Pages Constraints & Solutions
 
 | Constraint | Challenge | Solution | Status |
 |------------|-----------|----------|--------|
@@ -79,546 +231,312 @@
 | **API Key Security** | GoldAPI requires key | Use GoldAPI free tier with CORS + GitHub Actions proxy; fallback to committed prices | ✅ Resolved |
 | **Build time limits** | 10 min timeout | Vite optimized builds (<2 min) | ✅ Resolved |
 
-### 2.3 Critical API Research & Selection
-
-Based on latest research :
-
-| API | CORS | Key Required | Free Tier | Selection |
-|-----|------|--------------|-----------|-----------|
-| **ExchangeRate-API (Open)** | ✅ Yes | ❌ No | 1,500 req/month | **PRIMARY** - No key, daily updates  |
-| **GoldAPI** | ✅ Yes | ✅ Yes (free) | 100 req/day | **PRIMARY** - Client-side with key (exposed is acceptable for free tier)  |
-| **Metals-API** | ✅ Yes | ✅ Yes | 200 req/month | **FALLBACK** - If GoldAPI fails  |
-| **CoinGecko** | ✅ Yes | ❌ No (demo) | 10-30 calls/min | **PRIMARY** - Top 50 coins  |
-
-**Revised API Strategy:**
-- **Client-side first** for ExchangeRate-API and CoinGecko (keyless)
-- **GitHub Actions backup** commits daily prices to `src/data/prices.json`
-- **Manual override always available** as final fallback
-
 ---
 
-## 3. Tech Stack (Revised & Optimized)
-
-| Layer | Technology | Justification | Bundle Impact |
-|-------|-----------|---------------|---------------|
-| **Framework** | **React 18 + TypeScript** | Best ecosystem, GitHub Pages compatible, future React Native path | ~40KB |
-| **Build Tool** | **Vite** | Fast builds, optimized for static sites | Build tool only |
-| **Styling** | **Tailwind CSS** | Utility-first, responsive, small footprint | ~10KB |
-| **State Management** | **Zustand** | Lighter than Redux, persists to localStorage | ~3KB |
-| **Form Handling** | **React Hook Form** | Performance-optimized, minimal re-renders | ~5KB |
-| **Validation** | **Zod** | TypeScript-first, runtime validation | ~10KB |
-| **Precision Math** | **decimal.js** | Critical for financial accuracy  | ~10KB |
-| **Charts** | **Recharts** | Lazy-loaded, only when needed | ~50KB (lazy) |
-| **PDF Export** | **jsPDF + html2canvas** | Lazy-loaded, client-side generation | ~200KB (lazy) |
-| **PWA** | **Vite PWA Plugin** | Offline functionality Phase 2 | Config only |
-
-**Total Critical Bundle:** ~80KB (without lazy-loaded features)
-**Total with All Features:** ~330KB (acceptable for GitHub Pages)
-
-**Why decimal.js over big.js:** 
-- decimal.js supports advanced rounding modes critical for Zakat (round down conservative)
-- Better handling of very large numbers (crypto holdings)
-- More comprehensive API for financial calculations
-
----
-
-## 4. Feature Requirements (Corrected & Enhanced)
+## 4. Feature Requirements (Enhanced with Expat Optimizations)
 
 ### 4.1 Asset Input Modules (Revised)
 
 | Module | Input Fields | Calculation Logic | Validation | Status |
 |--------|-------------|-------------------|------------|--------|
-| **💰 Cash & Banks** | Multiple accounts with currency selector (150+ currencies) | Sum all values converted at current rate to base currency | Non-negative, max 12 decimal places | ✅ MVP |
-| **🥇 Gold** | Weight (grams), Karat (24k, 22k, 21k, 18k, custom purity %) | `pure_grams = weight × (karat/24)` → × gold price per gram | Max 10kg per entry, purity 1-24k | ✅ MVP |
+| **💰 Cash & Banks** | Multiple accounts with currency selector (100 currencies) + optional **home currency display** | Sum all values converted at current rate to base currency; show dual display | Non-negative, max 12 decimal places | ✅ MVP |
+| **🥇 Gold** | Weight in **regional units** (sovereign, tola, baht, tael, ratti, grams), Karat (24k, 22k, 21k, 18k, custom %), regional purity standards | Auto-convert to grams: `grams = weight × unitMultiplier` → `pure_grams = grams × (karat/24)` → × gold price | Max 10kg, purity 1-24k, unit validation | ✅ MVP |
 | **🥈 Silver** | Weight (grams), Type (bullion, coins, jewelry) | 100% zakatable at market rate | Separate tracking from gold | ✅ MVP |
-| **🪙 Cryptocurrency** | Coin selector (top 50: BTC, ETH, USDT, BNB, SOL, etc.), Amount, Wallet type | 2.5% on market value; exclude lost/inaccessible wallets | Real-time price fetch, manual override | ✅ MVP |
-| **📈 Stocks (Trading)** | Symbol, Shares, Market value | 2.5% on full market value (treated as trade goods) | Manual entry (no API for stocks) | ✅ MVP |
-| **📊 Stocks (Investment)** | Method toggle: Asset-based OR Simplified | Asset: `(your_shares/total_shares) × (cash+receivables+inventory)`; Simplified: `market_value × 0.30` | User inputs company fundamentals or selects simplified | ⚠️ Phase 2 |
-| **🏦 Retirement Accounts** | Type (401k, IRA, Pension, **Provident Fund**), Balance, Penalty %, Tax %, Accessibility toggle | FCNA method: `balance × (1 - penalty - tax)` if not accessible; Full balance if accessible | Penalty + tax < 100% | ✅ MVP |
+| **🪙 Cryptocurrency** | Coin selector (top 50), Amount, Wallet type (exchange/hardware/lost) | 2.5% on market value; exclude lost wallets | Real-time price fetch, manual override | ✅ MVP |
+| **📈 Stocks (Trading)** | **Quick mode:** Total market value only **OR** Detailed: Symbol, Shares, Market value | Quick: 2.5% on total value; Detailed: 2.5% on full market value | Manual entry, mode toggle | ✅ MVP |
+| **📊 Stocks (Investment)** | Method toggle: Asset-based OR Simplified | Asset: proportional zakatable assets; Simplified: `market_value × 0.30` | User inputs fundamentals or selects simplified | ⚠️ Phase 2 |
+| **🏦 Retirement Accounts** | Type (401k, IRA, Pension, Provident Fund), Balance, Penalty %, Tax %, Accessibility toggle | FCNA method: `balance × (1 - penalty - tax)` if not accessible | Penalty + tax < 100% | ✅ MVP |
 | **🏢 Business Assets** | Inventory market value, Cash, Receivables, Liabilities (due <12 months) | `(Inventory + Cash + Receivables - Liabilities) × 2.5%` | Inventory must be for resale | ⚠️ Phase 2 |
-| **🏠 Real Estate** | Property type (primary residence/rental/flipping), Market value | Primary: 0%; Rental: 0% (only rental **income** zakatable if saved); Flipping: 2.5% market value | Clear intent selection | ⚠️ Phase 2 |
-| **💳 Receivables** | Amount, Debtor reliability (**Strong/Doubtful**), Expected date | **Strong: 100% yearly; Doubtful: 0% yearly, 1 year upon recovery** [CRITICAL FIX] | Date validation | ✅ MVP |
-| **💳 Liabilities** | Short-term debts (credit cards, bills), Long-term installments (next 12 months only) | Deduct from assets per selected methodology | Separate tracking for Hanafi option | ✅ MVP |
+| **🏠 Real Estate** | Property type (primary/rental/flipping), Market value | Primary: 0%; Rental: 0% (only rental income zakatable if saved); Flipping: 2.5% market value | Clear intent selection | ⚠️ Phase 2 |
+| **💳 Receivables** | Amount, Debtor reliability (**Strong/Doubtful**), Expected date | **Strong: 100% yearly; Doubtful: 0% yearly, 1 year upon recovery** | Date validation | ✅ MVP |
+| **💳 Liabilities** | Short-term debts (credit cards, bills), Long-term installments (next 12 months only), **smart templates for common banks** | Deduct from assets per selected methodology | Separate tracking for Hanafi option | ✅ MVP |
 
 **CRITICAL FIXES APPLIED:**
-1. **Receivables:** Removed non-existent "50% medium" rule. Now: Strong (100% yearly) vs. Doubtful (0% yearly, pay 1 year upon recovery) - per classical fiqh 
-2. **Real Estate:** Clarified rental income is zakatable if saved, not property value
-3. **Retirement:** Added Provident Fund (common in India/Pakistan/Saudi)
+1. **Receivables:** Strong/Doubtful only (no 50% rule) - per classical fiqh
+2. **Real Estate:** Rental income zakatable if saved, not property value
+3. **Retirement:** Added Provident Fund for South Asian users
+4. **Gold:** Regional units (sovereign, tola) with auto-conversion to grams
+5. **Stocks:** Quick mode for users who only know total value
+6. **Cash:** Dual-currency display (base + home) for expats
 
-### 4.2 Multi-Currency Architecture (Enhanced)
+### 4.2 Regional Gold Units (NEW)
 
-**Base Currency Selection:**
-- User selects primary currency once (persisted in localStorage)
-- All calculations normalized to base currency using **decimal.js** for precision
-- Display shows: Original Amount → Exchange Rate → Base Currency Equivalent
+| Unit | Region | Conversion | Purity Standard |
+|------|--------|------------|-----------------|
+| **Gram** | International | 1g = 1g | User selects karat |
+| **Sovereign** | India, UK | 1 sovereign = 7.988g (≈ 8g) | Indian 22K = 91.6% |
+| **Tola** | India, Pakistan, Bangladesh | 1 tola = 11.664g | South Asian 22K = 91.6% |
+| **Baht** | Thailand | 1 baht = 15.244g | Thai 96.5% standard |
+| **Tael** | China, Hong Kong | 1 tael = 37.799g | HK 99% or 91.6% |
+| **Ratti** | India (traditional) | 1 ratti = 0.182g | Traditional jewelry |
 
-**Supported Currencies:**
-- **Fiat:** 100+ major currencies (not 150+ to avoid API limits) 
-- **Crypto:** Top 50 coins via CoinGecko
-- **Metals:** XAU (gold grams), XAG (silver grams) as pseudo-currencies
+**Implementation:**
+- `src/lib/calculation/goldUnits.ts` - Conversion table
+- `src/data/regionalPurity.json` - Purity standards by region
+- Auto-convert all to grams for calculation engine
 
-**Exchange Rate Strategy (Revised):**
+### 4.3 Multi-Currency Architecture (Enhanced with Dual Display)
+
+**Base Currency vs. Home Currency:**
+- **Base Currency:** Used for all calculations (e.g., SGD for Singapore-based user)
+- **Home Currency:** Optional display-only currency for mental reference (e.g., INR for Indian expat)
+
+**Example Display:**
 ```
-Primary: ExchangeRate-API (open access, no key, daily updates) 
-├─ Success: Cache for 24 hours, show "Live" indicator
-├─ Rate limited: Use cached data, show "Using cached rates" warning
-└─ Failed: Fallback to committed prices.json (daily GitHub Actions update)
+BASE (SGD)          HOME (INR)
+─────────────────────────────────────
+Net Wealth:         SGD 187,937.50
+                    ≈ ₹ 1,17,46,093
 
-Emergency: Manual user input with clear "Custom Rate" label
+Nisab: SGD 7,240    ₹ 4,52,500
 ```
 
-**CRITICAL FIX:** Reduced from 150+ to 100+ currencies to stay within ExchangeRate-API free tier (1,500 req/month = ~50 users/day max) 
+**Number Formatting:**
+- Indian numbering system for INR: `₹ 1.17 Cr` or `₹ 117.46 L` (lakhs/crores)
+- Standard international for others: `USD 45,230.50`
 
-### 4.3 Scholarly Methodology Selection (Corrected)
+### 4.4 Quick Stock Mode (NEW)
+
+For users like Mohamed who track portfolios by total value, not share count:
+
+```
+Input Mode Toggle:
+(•) Quick: I know my total portfolio value
+    Enter: SGD 45,000
+    Holding type: Long-term investment
+    Method: Simplified 30% (AAOIFI estimation)
+    Zakatable: SGD 13,500
+
+( ) Detailed: I want precise calculation
+    Enter: Symbol, shares, company fundamentals
+    Method: Asset-based (AAOIFI Standard 35)
+```
+
+### 4.5 Scholarly Methodology Selection (Corrected)
 
 | Setting | Options | Default | Source | Impact Preview |
 |---------|---------|---------|--------|--------------|
-| **Nisab Basis** | Silver (612.36g) / Gold (87.48g) / **Auto (lower) - LABELED AS "Convenience setting (not formal fiqh)"** | **Silver** | NZF, Islamic Relief  | Show both values, explain difference |
-| **Debt Deduction** | Majority (12-month only) / Hanafi (all debts) | **Majority** | FCNA, AAOIFI  | Show liability impact |
-| **Retirement Accounts** | FCNA (net accessible) / Delayed (at withdrawal) | **FCNA** | FCNA official ruling  | Show Zakat difference |
-| **Jewelry Zakat** | Hanafi (all gold/silver) / Other (customary use exempt) | **Hanafi** | Conservative default  | Explain exemption rules |
-| **Stock Valuation** | Asset-based (AAOIFI) / Market value (simplified) | **Asset-based** | More accurate  | Show % difference |
+| **Nisab Basis** | Silver (612.36g) / Gold (87.48g) / **Auto (lower) - LABELED AS "Convenience setting (not formal fiqh)"** | **Silver** | NZF, Islamic Relief | Show both values, explain difference |
+| **Debt Deduction** | Majority (12-month only) / Hanafi (all debts) | **Majority** | FCNA, AAOIFI | Show liability impact |
+| **Retirement Accounts** | FCNA (net accessible) / Delayed (at withdrawal) | **FCNA** | FCNA official ruling | Show Zakat difference |
+| **Jewelry Zakat** | Hanafi (all gold/silver) / Other (customary use exempt) | **Hanafi** | Conservative default | Explain exemption rules |
+| **Stock Valuation** | Asset-based (AAOIFI) / Market value (simplified) | **Asset-based** | More accurate | Show % difference |
 | **Hawl Check** | Yes (1 lunar year passed) / No (new wealth) / Unknown | **Yes** | Assumes established wealth | Explain hawl concept |
-
-**CRITICAL FIX:** Auto Nisab labeled as convenience setting, not formal fiqh position 
-
-### 4.4 Calculation Engine (Enhanced with decimal.js)
-
-**Precision Standards:**
-- **Currency:** 2 decimal places (standard accounting)
-- **Metal weights:** 3 decimal places (e.g., 50.125g)
-- **Intermediate calculations:** decimal.js with 20 significant digits
-- **Final Zakat:** Round down (conservative) or standard rounding (configurable)
-
-**Calculation Pipeline (Pseudocode):**
-```typescript
-import Decimal from 'decimal.js';
-
-function calculateZakat(state: ZakatState): CalculationResult {
-  // 1. Normalize all assets to base currency using decimal.js
-  const assetsInBase = state.assets.map(asset => ({
-    ...asset,
-    valueInBase: new Decimal(asset.amount)
-      .times(getExchangeRate(asset.currency, state.baseCurrency))
-      .toDecimalPlaces(2, Decimal.ROUND_DOWN) // Conservative rounding
-  }));
-  
-  // 2. Apply scholarly adjustments per methodology
-  const adjustedAssets = applyMethodology(assetsInBase, state.preferences);
-  
-  // 3. Calculate zakatable amounts per category with decimal.js
-  const categoryTotals = {
-    cash: sum(adjustedAssets.cash),
-    gold: calculateGoldValue(adjustedAssets.gold), // pure grams × price
-    silver: calculateSilverValue(adjustedAssets.silver),
-    crypto: sum(adjustedAssets.crypto),
-    stocksTrading: sum(adjustedAssets.stocksTrading),
-    stocksInvestment: calculateStockZakatable(adjustedAssets.stocksInvestment),
-    retirement: calculateRetirementZakatable(adjustedAssets.retirement),
-    receivables: calculateReceivablesZakatable(adjustedAssets.receivables) // FIXED: Strong/Doubtful only
-  };
-  
-  // 4. Sum total assets using decimal.js
-  const totalAssets = Object.values(categoryTotals)
-    .reduce((a, b) => a.plus(b), new Decimal(0));
-  
-  // 5. Calculate deductible liabilities
-  const totalLiabilities = calculateLiabilities(
-    state.liabilities, 
-    state.preferences.debtMethod
-  );
-  
-  // 6. Net zakatable wealth
-  const netWealth = totalAssets.minus(totalLiabilities);
-  
-  // 7. Check nisab
-  const nisabValue = getNisabValue(
-    state.preferences.nisabBasis,
-    state.marketData.goldPrice,
-    state.marketData.silverPrice
-  );
-  
-  // 8. Calculate Zakat with decimal.js precision
-  const meetsNisab = netWealth.greaterThanOrEqualTo(nisabValue);
-  const zakatDue = meetsNisab 
-    ? netWealth.times(0.025).toDecimalPlaces(2, Decimal.ROUND_DOWN)
-    : new Decimal(0);
-  
-  return {
-    totalAssets: totalAssets.toString(),
-    totalLiabilities: totalLiabilities.toString(),
-    netWealth: netWealth.toString(),
-    nisabValue: nisabValue.toString(),
-    meetsNisab,
-    zakatDue: zakatDue.toString(),
-    breakdown: categoryTotals,
-    methodology: state.preferences
-  };
-}
-```
-
-**CRITICAL FIX:** Using decimal.js for all financial calculations to avoid JavaScript floating-point errors 
 
 ---
 
-## 5. User Interface Design (Refined)
+## 5. User Interface Design (Enhanced with Expat Features)
 
-### 5.1 Layout Structure (Enhanced)
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  HEADER: Logo | Language (EN/AR/UR) | Theme Toggle | GitHub │
-├─────────────────────────────────────────────────────────────┤
-│  PROGRESS STEPPER (Visual Indicator):                       │
-│  [Assets] → [Liabilities] → [Methodology] → [Results]      │
-│  ─────────────────────────────────────────────────────────  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  MAIN CONTENT AREA:                                         │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  ACCORDION: ASSET CATEGORIES (Left/Center Panel)    │   │
-│  │                                                     │   │
-│  │  ▶ 💰 Cash & Bank Accounts (0 entries)              │   │
-│  │  ▶ 🥇 Gold & Silver (2 entries)                     │   │
-│  │  ▶ 📈 Investments: Stocks & Crypto (1 entry)          │   │
-│  │  ▶ 🏦 Retirement Accounts (1 entry)                 │   │
-│  │  ▶ 💳 Receivables & Liabilities (0 entries)           │   │
-│  │                                                     │   │
-│  │  [+ Add New Asset Category]                         │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │  STICKY SUMMARY CARD (Right Panel on Desktop)       │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │  Base Currency: USD ▼                               │   │
-│  │                                                     │   │
-│  │  Total Assets:          $45,230.00                  │   │
-│  │  Total Liabilities:    -$3,500.00                   │   │
-│  │  ─────────────────────────────────────────────────  │   │
-│  │  Net Wealth:            $41,730.00                  │   │
-│  │                                                     │   │
-│  │  Nisab Threshold:       $1,971.79 (Silver) ✅       │   │
-│  │  [Visual Bar: ████████████████████░░░░░░░░░░ 21.2×]   │   │
-│  │                                                     │   │
-│  │  ESTIMATED ZAKAT:       $1,043.25                   │   │
-│  │  Due: Based on your hawl anniversary                │   │
-│  │                                                     │   │
-│  │  [📥 Download PDF]  [🔗 Share]  [🔄 Reset]          │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-│  FOOTER: Sources | Methodology | Privacy | Contribute       │
-└─────────────────────────────────────────────────────────────┘
-```
-
-### 5.2 Key UI Components (Enhanced)
-
-#### Component A: Multi-Currency Input Field (Revised)
+### 5.1 Regional Preset Modal (NEW)
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  💰 Cash Account #1                          [🗑️ Remove] │
+┌─────────────────────────────────────────┐
+│  🌍 Quick Setup                    [✕] │
+├─────────────────────────────────────────┤
+│  Select your situation:                 │
+│                                         │
+│  (•) Indian in Singapore                │
+│    → Base: SGD | Home: INR              │
+│    → Gold: Sovereign | Stocks: Quick    │
+│    → Format: Indian numbering (L/Cr)    │
+│                                         │
+│  ( ) Indian in UAE                      │
+│    → Base: AED | Home: INR              │
+│    → Gold: Tola | Stocks: Quick         │
+│                                         │
+│  ( ) Pakistani in UK                  │
+│    → Base: GBP | Home: PKR              │
+│    → Gold: Tola | Format: International │
+│                                         │
+│  ( ) Bangladeshi in Malaysia          │
+│    → Base: MYR | Home: BDT              │
+│    → Gold: Bhori | Stocks: Quick        │
+│                                         │
+│  ( ) Custom setup                       │
+│                                         │
+│  [Apply Preset]  [Skip for now]         │
+└─────────────────────────────────────────┘
+```
+
+### 5.2 Enhanced Gold Input with Regional Units
+
+```
+┌─────────────────────────────────────────┐
+│  🥇 Gold Holding #1            [🗑️]   │
 ├─────────────────────────────────────────────────────────┤
-│  Account Name (optional): [Savings Account    ]         │
+│  Unit: [Sovereign (India) ▼]                            │
+│         ├── Grams (International)                         │
+│         ├── Tola (South Asia)                           │
+│         ├── Baht (Thailand)                               │
+│         ├── Tael (China/HK)                             │
+│         ├── Ratti (India traditional)                   │
+│         └── Ounce (Global)                              │
 │                                                         │
-│  Amount: [        5,000        ] [USD ▼]               │
-│                                    ├─ EUR               │
-│                                    ├─ GBP               │
-│                                    ├─ INR               │
-│                                    ├─ AED               │
-│                                    └─ + 95 more...      │
+│  Weight: [    15    ] sovereigns                        │
+│  = 119.82 grams (auto-converted)                        │
 │                                                         │
-│  ≈ $5,000.00 USD (base currency)                        │
-│  Rate: 1 USD = 1 USD • Updated: Just now              │
-│                                                         │
-│  [⚠️ API unavailable - Using rate from 2 hours ago]    │
-│  [Enter custom rate: _______]                           │
-└─────────────────────────────────────────────────────────┘
-[ + Add Another Cash Account ]
-```
-
-**Enhancement:** Added API status indicator and manual override option
-
-#### Component B: Gold Input with Live Calculation (Enhanced)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  🥇 Gold Holding #1                          [🗑️ Remove] │
-├─────────────────────────────────────────────────────────┤
-│  Description: [Wedding Jewelry                 ]          │
-│                                                         │
-│  Weight: [    50.000    ] grams                        │
-│                                                         │
-│  Purity: [22K ▼]                                       │
-│          ├── 24K (99.9% pure)                          │
-│          ├── 22K (91.6% pure)                          │
-│          ├── 21K (87.5% pure)                          │
-│          ├── 18K (75.0% pure)                          │
-│          └── Custom: [__]%                               │
+│  Purity Source: [India (22K = 91.6%) ▼]                 │
+│                  ├── Middle East (22K = 91.7%)          │
+│                  └── Custom karat...                    │
 │                                                         │
 │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
 │  Calculation:                                           │
-│  50.000g × 91.6% purity = 45.800g pure gold            │
-│  45.800g × $90.50/g = $4,144.90 USD                     │
+│  15 sovereigns × 7.988g = 119.82g gross                 │
+│  119.82g × 91.6% purity = 109.75g pure gold            │
+│  109.75g × SGD 82.50/g = SGD 9,054.38                   │
 │  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
 │                                                         │
-│  [📤 Upload CSV for bulk import]  [Add Another Entry]    │
+│  [📤 Upload CSV for bulk]  [Add Another]                │
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Enhancement:** Added CSV bulk import option for jewelers/businesses
-
-#### Component C: Methodology Settings Modal (Enhanced with Impact Preview)
+### 5.3 Dual-Currency Sticky Summary (NEW)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  ⚖️ Calculation Methodology                    [✕ Close]│
-├─────────────────────────────────────────────────────────┤
-│  These settings affect your Zakat obligation.           │
-│  Choose according to your school of thought or           │
-│  consult a local scholar.                               │
+│  LIVE SUMMARY                                           │
+│  Base: SGD | Home: INR ▼                                │
+│  ─────────────────────────────────────────────────────  │
 │                                                         │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  NISAB THRESHOLD                                        │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  (•) Silver Nisab: 612.36g (~$1,972 USD)               │
-│      Recommended by NZF, Islamic Relief                 │
-│      [Impact: Your current Zakat = $1,043]              │
+│  SGD              INR (≈)                               │
+│  ─────────────────────────────────────────────────────  │
+│  Assets:    220,437    1,37,77,312    (1.38 Cr)         │
+│  Debts:     -3,500     -2,18,750                        │
+│  ─────────────────────────────────────────────────────  │
+│  Net:       216,937    1,35,58,562    (1.36 Cr)         │
 │                                                         │
-│  ( ) Gold Nisab: 87.48g (~$18,721 USD)                 │
-│      Traditional standard, higher threshold               │
-│      [Impact: Your Zakat would be $0 - below nisab]     │
+│  Nisab:     7,240      4,52,500       ✅ Met            │
+│  Zakat:     5,423.43   3,38,964       (2.5%)            │
 │                                                         │
-│  ( ) Auto: Use lower of the two (convenience setting)   │
-│      ⚠️ Not a formal fiqh position - for guidance only  │
-│                                                         │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  DEBT DEDUCTION                                         │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  (•) Majority View: Deduct debts due within 12 months  │
-│      (FCNA, AAOIFI standard)                            │
-│      [Impact: -$3,500 deductible]                       │
-│                                                         │
-│  ( ) Hanafi View: Deduct all debts regardless of term   │
-│      (More lenient, traditional Hanafi position)        │
-│      [Impact: -$8,200 deductible]                       │
-│                                                         │
-│  [💡 Learn more about these differences]                │
-│                                                         │
-│              [Save Preferences]                         │
+│  [📥 PDF]  [🔗 Share]  [🔄 Reset]                       │
 └─────────────────────────────────────────────────────────┘
 ```
-
-**Enhancement:** Real-time impact preview before saving changes
-
-#### Component D: Results Dashboard (Enhanced)
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  🎉 YOUR ZAKAT CALCULATION                              │
-│  Generated: February 18, 2026 • Method: Silver/Hanafi     │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  ASSET BREAKDOWN                    ZAKAT PER CATEGORY  │
-│  ┌─────────────────────────────────────────────────┐     │
-│  │ Cash & Banks    45% ████████████████████  $468 │     │
-│  │ Gold            30% ██████████████        $312 │     │
-│  │ Stocks          15% █████████             $156 │     │
-│  │ Crypto          10% ██████                $104 │     │
-│  │ Retirement       0% ░░░░░                 $  0 │     │
-│  └─────────────────────────────────────────────────┘     │
-│                                                         │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  CALCULATION SUMMARY                                    │
-│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
-│  Total Zakatable Assets:        $45,230.00              │
-│  Less: Total Liabilities:      -$ 3,500.00              │
-│  ─────────────────────────────────────────────────────  │
-│  Net Zakatable Wealth:          $41,730.00              │
-│                                                         │
-│  Nisab Threshold (Silver):      $ 1,971.79              │
-│  Status: ✅ Nisab Met (21.2× above threshold)           │
-│  Hawl: Assumed 1 lunar year passed                      │
-│  ─────────────────────────────────────────────────────  │
-│  TOTAL ZAKAT DUE (2.5%):        $ 1,043.25              │
-│  ≈ 2.5% of your net wealth                              │
-│  ─────────────────────────────────────────────────────  │
-│                                                         │
-│  📅 HAWL TRACKER                                          │
-│  Next Zakat Due: March 20, 2027 (1 lunar year)          │
-│  [🔔 Set Reminder]  [📅 Add to Calendar (.ics)]          │
-│                                                         │
-│  [📥 Download PDF Report]  [📋 Copy Text Summary]       │
-│  [🔗 Generate Shareable Link]  [🖨️ Print]               │
-│                                                         │
-│  ℹ️ This calculation is based on the methodology        │
-│     selected. Consult a scholar for complex situations. │
-│  [📚 View Shariah Sources]  [🧮 Show Calculation Steps]  │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Enhancements:** 
-- Added Hawl tracker with reminder functionality
-- Added "Show Calculation Steps" for transparency
-- Added Shariah sources link
-
-### 5.3 Responsive Breakpoints (Refined)
-
-| Breakpoint | Layout | Key Adaptations |
-|------------|--------|-----------------|
-| **Mobile (< 640px)** | Single column, stacked | Bottom sticky summary bar; full-screen modals; numeric keypad for inputs; swipe between sections |
-| **Tablet (640-1024px)** | Two columns | Summary sidebar on right; accordion expands inline |
-| **Desktop (> 1024px)** | Three columns | Asset categories | Input forms | Live summary sidebar |
-| **Wide (> 1440px)** | Three columns + references | Persistent methodology panel; scholarly citations visible; export options sidebar |
 
 ---
 
-## 6. Data Storage, Privacy & Security (Enhanced)
+## 6. Data Storage, Privacy & Security
 
-### 6.1 localStorage Schema (Revised)
+### 6.1 localStorage Schema (Revised with Expat Fields)
 
 ```typescript
-// Key: openzakat_v2
+// Key: openzakat_v3
 interface StorageSchema {
-  version: '2.0';  // For migration handling
+  version: '3.0';
   
   preferences: {
-    baseCurrency: string;        // ISO 4217 code
-    language: string;            // "en", "ar", "ur"
+    baseCurrency: string;           // SGD, AED, USD, etc.
+    homeCurrency?: string;          // INR, PKR, BDT, etc. (optional)
+    language: string;
     theme: "light" | "dark" | "system";
+    regionalPreset?: string;        // "indian-singapore", "pakistani-uk", etc.
+    goldUnit: "gram" | "sovereign" | "tola" | "baht" | "tael" | "ratti";
+    numberingFormat: "international" | "indian"; // 1,00,000 vs 100,000
     methodology: {
       nisabBasis: "gold" | "silver" | "auto";
       debtDeduction: "majority" | "hanafi";
       retirementMethod: "fcna" | "delayed";
       jewelryMethod: "hanafi" | "other";
       stockValuation: "asset-based" | "market";
+      stockInputMode: "quick" | "detailed"; // NEW
     };
     privacy: {
-      enableHistory: boolean;    // Opt-in for calculation history
-      encryptHistory: boolean;   // Password-protect history
+      enableHistory: boolean;
+      encryptHistory: boolean;
     };
   };
   
   currentSession: {
     assets: AssetState;
     liabilities: LiabilityState;
-    hawlAnniversary: string | null; // ISO date or null
-    lastUpdated: string; // ISO timestamp
+    hawlAnniversary: string | null;
+    lastUpdated: string;
   };
   
   cache: {
     exchangeRates: {
-      rates: Record<string, string>; // Stored as strings for decimal precision
+      rates: Record<string, string>;
       base: string;
       timestamp: string;
       source: "api" | "committed" | "manual";
     };
     metalPrices: {
-      gold: string;      // USD per gram (string for precision)
-      silver: string;    // USD per gram
+      gold: string;
+      silver: string;
       timestamp: string;
     };
     cryptoPrices: Record<string, string>;
   };
   
-  history?: {            // Opt-in only
+  history?: {
     calculations: HistoricalCalculation[];
     encrypted?: boolean;
   };
 }
 ```
 
-### 6.2 Security & Privacy Features (Enhanced)
-
-| Feature | Implementation | Status |
-|---------|---------------|--------|
-| **No data transmission** | All calculations client-side | ✅ |
-| **No tracking** | No Google Analytics, no cookies | ✅ |
-| **Content Security Policy** | Strict CSP headers in `public/_headers` | ✅ Added |
-| **Optional encryption** | Web Crypto API for history encryption | ⚠️ Phase 2 |
-| **Clear data** | One-click wipe with confirmation | ✅ |
-| **Transparency report** | Page showing all API calls and data stored | ✅ Added |
-
-**CSP Headers (public/_headers):**
-```
-/*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://api.exchangerate-api.com https://www.goldapi.io https://api.coingecko.com;
-  X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
-  Referrer-Policy: strict-origin-when-cross-origin
-```
-
 ---
 
-## 7. API Integration, Offline Strategy & GitHub Actions (Revised)
+## 7. API Integration & GitHub Actions
 
-### 7.1 API Integration (Corrected)
+### 7.1 GitHub Repository Configuration
 
-| Data Type | Primary API | Fallback | Free Tier | CORS | Key |
-|-----------|-------------|----------|-----------|------|-----|
-| **Exchange Rates** | ExchangeRate-API (open) | Committed prices.json | 1,500 req/month | ✅ | ❌ No |
-| **Gold/Silver** | GoldAPI | Metals-API, committed data | 100 req/day | ✅ | ✅ Yes (exposed) |
-| **Crypto** | CoinGecko | Committed data | 10-30 calls/min | ✅ | ❌ No (demo) |
+**Repository:** `mohamedazimal27/OpenZakat`
 
-**CRITICAL FIX:** GoldAPI requires key but has CORS enabled . Free tier key is acceptable to expose for client-side use (100 req/day limit).
+**Workflow Files:**
 
-### 7.2 GitHub Actions Price Updater (Revised with git amend)
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+```
 
 ```yaml
 # .github/workflows/update-prices.yml
 name: Update Market Prices
-
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 AM UTC (reduced from every 6 hours)
-  workflow_dispatch:  # Manual trigger
-
+    - cron: '0 6 * * *'  # Daily 6 AM UTC
+  workflow_dispatch:
 jobs:
   update-prices:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Full history for amend
-      
+          fetch-depth: 0
       - name: Fetch Prices
-        id: fetch
         run: |
           mkdir -p src/data
-          
-          # Fetch exchange rates (open endpoint, no key)
           curl -s "https://api.exchangerate-api.com/v4/latest/USD" > src/data/rates.json
-          
-          # Fetch gold price (using repository secret)
           curl -s -H "x-access-token: ${{ secrets.GOLD_API_KEY }}" \
             "https://www.goldapi.io/api/XAU/USD" > src/data/gold.json
-          
-          # Fetch silver price
           curl -s -H "x-access-token: ${{ secrets.GOLD_API_KEY }}" \
             "https://www.goldapi.io/api/XAG/USD" > src/data/silver.json
-          
-          # Fetch top 50 crypto prices
-          curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana,...&vs_currencies=usd" > src/data/crypto.json
-          
-          # Create timestamp
+          curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana,cardano,ripple,polkadot,dogecoin,avalanche-2&vs_currencies=usd" > src/data/crypto.json
           date -u +"%Y-%m-%dT%H:%M:%SZ" > src/data/last-update.txt
-      
-      - name: Commit with Amend (Prevent Repo Bloat)
+      - name: Commit with Amend
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          
-          # Stage changes
           git add src/data/
-          
-          # Check if there are changes
-          if git diff --cached --quiet; then
-            echo "No price changes to commit"
-            exit 0
-          fi
-          
-          # Commit with amend to previous price update (or new commit if first time)
+          if git diff --cached --quiet; then exit 0; fi
           if git log -1 --pretty=%B | grep -q "Daily price update"; then
             git commit --amend -m "Daily price update: $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push --force-with-lease
@@ -628,80 +546,52 @@ jobs:
           fi
 ```
 
-**CRITICAL FIX:** Using `git commit --amend` to prevent repository bloat from daily commits 
-
-### 7.3 Offline Handling (Enhanced)
-
-```
-Online Mode:
-  API calls every 15 min for crypto, 1 hour for metals/rates
-  ├─ Success (< 1 hour old): Green ✓ "Live rates"
-  ├─ Success (1-24 hours old): Amber ⚠ "Rates from X hours ago"
-  └─ Fail: Use committed prices.json, show "Using daily backup rates"
-
-Offline Mode:
-  Use committed prices.json (daily update via GitHub Actions)
-  Show banner: "You're offline. Using backup rates from [date]."
-  Allow manual price override with clear "Custom Price" label
-  Queue updates for when connection restores
-```
-
 ---
 
-## 8. Development Roadmap (Revised - MVP First)
+## 8. Development Roadmap (Revised)
 
-### Phase 1: MVP (Weeks 1-2) - Core Zakat
-**Goal:** Essential functionality for 80% of users
-
+### Phase 1: MVP (Weeks 1-2) - Core + Expat Essentials
 | Feature | Priority | Effort |
 |---------|----------|--------|
-| Gold/Silver (grams, karat) | Critical | 2 days |
-| Cash (multi-currency, 100+ currencies) | Critical | 2 days |
-| Basic crypto (top 10 coins) | Critical | 2 days |
-| Liabilities (short-term debts) | Critical | 1 day |
-| Silver/Gold nisab toggle | Critical | 1 day |
-| PDF export (basic) | High | 2 days |
-| Responsive UI | Critical | 2 days |
-| decimal.js integration | Critical | 1 day |
+| Project setup (Vite, React, Tailwind, decimal.js) | Critical | 1 day |
+| Regional presets (Indian-Singapore, Pakistani-UK, etc.) | **NEW Critical** | 1 day |
+| Gold with regional units (sovereign, tola, etc.) | **NEW Critical** | 2 days |
+| Cash with dual-currency display | **NEW Critical** | 1 day |
+| Stock quick mode (total value only) | **NEW Critical** | 1 day |
+| Silver, basic crypto, liabilities | Critical | 2 days |
+| Nisab toggle, methodology modal | Critical | 1 day |
+| PDF export, responsive UI | High | 2 days |
 
 **MVP Definition of Done:**
-- User can calculate Zakat on gold, silver, cash, crypto
-- Multi-currency support with conversion
-- Nisab check (silver/gold)
-- Basic PDF export
-- Mobile-responsive
-- Deployed to GitHub Pages
+- Mohamed can complete calculation in 6 minutes with zero external searches
+- All regional units work seamlessly
+- Dual-currency display accurate
+- Deployed to `https://mohamedazimal27.github.io/OpenZakat/`
 
 ### Phase 2: Essential Assets (Weeks 3-4)
 | Feature | Priority |
 |---------|----------|
-| Stocks (trading mode) | High |
 | Retirement accounts (FCNA method) | High |
 | Receivables (strong/doubtful) | High |
-| Debt deduction toggle (majority/Hanafi) | Medium |
+| Investment stocks (asset-based) | Medium |
 | PWA offline support | Medium |
-| localStorage persistence | High |
 
-### Phase 3: Advanced Features (Weeks 5-6)
+### Phase 3: Advanced (Weeks 5-6)
 | Feature | Priority |
 |---------|----------|
 | Business inventory | Medium |
-| Investment stocks (asset-based) | Medium |
 | Real estate module | Low |
-| Historical tracking | Low |
 | Multi-language (AR, UR) | Medium |
 
-### Phase 4: Polish & Scale (Weeks 7-8)
+### Phase 4: Scale (Weeks 7-8)
 | Feature | Priority |
 |---------|----------|
-| Advanced PDF reports | Low |
 | Scholar verification program | High |
 | Community translations | Medium |
-| API for third-party embed | Low |
 
 ---
 
-## 9. Repository Structure (Enhanced)
+## 9. Repository Structure
 
 ```
 openzakat/
@@ -710,236 +600,365 @@ openzakat/
 │       ├── deploy.yml           # Deploy to GitHub Pages
 │       └── update-prices.yml    # Daily price update with git amend
 ├── public/
-│   ├── _headers                 # Security headers (CSP)
-│   ├── manifest.json            # PWA manifest
-│   ├── favicon.ico
-│   └── locales/                 # i18n files (Phase 3)
+│   ├── _headers                 # CSP headers
+│   ├── CNAME                    # Custom domain (optional)
+│   ├── manifest.json
+│   └── locales/
 │       ├── en.json
 │       ├── ar.json
 │       └── ur.json
 ├── src/
 │   ├── components/
-│   │   ├── assets/              # Gold, Silver, Cash, etc.
-│   │   ├── common/              # Button, Input, Modal, Tooltip
-│   │   ├── layout/              # Header, Footer, Sidebar, Stepper
-│   │   └── results/             # Dashboard, Charts, PDF
+│   │   ├── assets/
+│   │   │   ├── CashInput.tsx
+│   │   │   ├── GoldInput.tsx    # With regional units
+│   │   │   ├── SilverInput.tsx
+│   │   │   ├── CryptoInput.tsx
+│   │   │   ├── StockInput.tsx   # Quick + Detailed modes
+│   │   │   ├── RetirementInput.tsx
+│   │   │   └── LiabilitiesInput.tsx
+│   │   ├── common/
+│   │   ├── layout/
+│   │   │   ├── RegionalPresetModal.tsx  # NEW
+│   │   │   ├── DualCurrencySummary.tsx  # NEW
+│   │   │   └── ...
+│   │   └── results/
 │   ├── data/
-│   │   ├── prices/              # Committed price data (GitHub Actions)
-│   │   │   ├── rates.json
-│   │   │   ├── gold.json
-│   │   │   ├── silver.json
-│   │   │   └── crypto.json
-│   │   └── scholarly/           # Methodology content, fatwa references
-│   │       ├── sources.md
-│   │       └── methodology.json
+│   │   ├── prices/
+│   │   ├── regional/
+│   │   │   ├── goldUnits.ts           # NEW
+│   │   │   ├── presets.ts             # NEW
+│   │   │   └── purityStandards.json   # NEW
+│   │   └── scholarly/
 │   ├── lib/
-│   │   ├── calculation/         # Core Zakat engine (decimal.js)
+│   │   ├── calculation/
 │   │   │   ├── engine.ts
-│   │   │   ├── gold.ts
+│   │   │   ├── gold.ts                # Updated with units
 │   │   │   ├── currency.ts
-│   │   │   └── validation.ts
-│   │   ├── currency/            # Conversion utilities
-│   │   └── storage/             # localStorage/IndexedDB
-│   ├── hooks/
-│   │   ├── usePrices.ts         # Price fetching with fallback
-│   │   ├── useCalculation.ts    # Core calculation hook
-│   │   └── useStorage.ts        # Persistence hook
+│   │   │   └── stocks.ts              # Quick mode logic
+│   │   ├── currency/
+│   │   └── storage/
 │   ├── store/
-│   │   └── zakatStore.ts        # Zustand store
 │   ├── types/
-│   │   └── index.ts             # TypeScript definitions
 │   ├── utils/
-│   │   ├── decimal.ts           # decimal.js configuration
-│   │   └── formatters.ts        # Currency/date formatters
+│   │   ├── decimal.ts
+│   │   ├── formatters.ts              # Indian numbering
+│   │   └── unitConversion.ts          # NEW
 │   ├── App.tsx
 │   └── main.tsx
 ├── tests/
-│   ├── unit/                    # Jest tests (30+ test cases)
+│   ├── unit/
 │   │   ├── calculation.test.ts
-│   │   ├── gold.test.ts
-│   │   └── currency.test.ts
-│   └── e2e/                     # Playwright tests
-│       └── flows.spec.ts
+│   │   ├── gold-units.test.ts         # NEW
+│   │   ├── dual-currency.test.ts      # NEW
+│   │   └── stock-quick.test.ts        # NEW
+│   └── e2e/
 ├── docs/
-│   ├── SHARIAH_SOURCES.md       # Detailed source documentation
-│   ├── METHODOLOGY.md           # Calculation explanations
-│   └── FATWA_REVIEW.md          # Scholar review process
 ├── index.html
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
-├── tailwind.config.js
 └── README.md
 ```
 
 ---
 
-## 10. Success Metrics & Validation (Enhanced)
+## 10. Success Metrics (Enhanced)
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| **Calculation Accuracy** | 100% | 30+ unit tests covering edge cases |
-| **Bundle Size (MVP)** | < 100KB | webpack-bundle-analyzer |
-| **Bundle Size (Full)** | < 350KB | With lazy-loaded features |
-| **Page Load** | < 2 seconds | Lighthouse Performance > 90 |
-| **Accessibility** | WCAG 2.1 AA | axe-core automated + manual |
-| **API Success Rate** | > 95% | Fallback to committed data |
-| **Monthly Users** | 1,000 | GitHub traffic + API calls |
+| **Calculation Accuracy** | 100% | 35+ unit tests (including 5 new expat tests) |
+| **Mohamed Scenario Time** | < 6 minutes | User testing with stopwatch |
+| **External Searches** | 0 | No Google searches needed during calculation |
+| **Bundle Size (MVP)** | < 120KB | With regional unit data |
 | **GitHub Stars** | 500 | Community adoption |
-| **Scholar Endorsement** | 2+ verified | Fatwa review documentation |
+| **Expat User Satisfaction** | > 90% | Post-calculation survey |
 
-**Unit Test Requirements (30+ cases):**
-1. Gold only calculation
-2. Cash only calculation
-3. Silver nisab threshold
-4. Gold nisab threshold
-5. Exactly at nisab (edge case)
-6. Below nisab (zero Zakat)
-7. Debts exceeding assets (negative net wealth)
-8. Multiple currency conversion
-9. Gold karat conversion (18k, 22k, 24k)
-10. Crypto calculation
-11. Retirement FCNA method
-12. Retirement accessible (no penalty)
-13. Trading stocks full value
-14. Investment stocks asset-based
-15. Investment stocks simplified 30%
-16. Receivables strong (100%)
-17. Receivables doubtful (0%)
-18. Majority debt deduction (12-month)
-19. Hanafi debt deduction (all debts)
-20. Business inventory valuation
-21. Business with liabilities
-22. Real estate primary residence (0%)
-23. Real estate flipping (2.5%)
-24. Multi-asset portfolio
-25. Currency conversion with decimal precision
-26. Rounding down (conservative)
-27. Hawl not met (new wealth)
-28. Lost crypto exclusion
-29. Manual price override
-30. Offline calculation with cached rates
+**New Test Cases (5 expat-specific):**
+31. Sovereign to gram conversion (15 sovereigns = 119.82g)
+32. Tola to gram conversion (10 tolas = 116.64g)
+33. Dual-currency display (SGD base + INR home)
+34. Indian numbering format (1,00,000 vs 100,000)
+35. Stock quick mode (total value → 30% zakatable)
 
 ---
 
-## 11. Open Source Governance & Scholarly Validation (Enhanced)
+## 11. Final Checklist for Launch
 
-### 11.1 License & Contribution
-- **License:** MIT License
-- **Contribution Areas:** Translations, scholarly review, UI/UX, testing
-- **Code of Conduct:** Contributor Covenant v2.1
+- [ ] All 35 unit tests passing
+- [ ] Mohamed scenario tested: 6 minutes, zero external searches
+- [ ] Regional presets: Indian-Singapore, Pakistani-UK, Bangladeshi-Malaysia
+- [ ] Gold units: sovereign, tola, baht, tael, ratti, gram
+- [ ] Dual-currency display working (base + home)
+- [ ] Stock quick mode functional
+- [ ] Deployed to `https://mohamedazimal27.github.io/OpenZakat/`
+- [ ] GitHub Actions price updater running
+- [ ] MIT License applied
+- [ ] README with expat-specific documentation
 
-### 11.2 Scholarly Review Board (New)
+---
 
-**Goal:** Establish credibility with religious users
+## 12. Summary: What Makes This PRD Unique
 
-**Process:**
-1. Recruit 2-3 recognized scholars (FCNA, AAOIFI, or major institutions)
-2. Review calculation methodology annually
-3. Publish signed fatwa/endorsement of approval
-4. Document scholarly sources in `docs/SHARIAH_SOURCES.md`
+| Feature | Standard Calculators | OpenZakat (This PRD) |
+|---------|---------------------|----------------------|
+| Gold input | Grams only | **Regional units** (sovereign, tola, etc.) |
+| Currency | Single or converted | **Dual display** (base + home) |
+| Stocks | Share count required | **Quick mode** (total value) |
+| Setup | Manual configuration | **Regional presets** (one-click) |
+| Number format | International only | **Indian (L/Cr) + International** |
+| Time to calculate | 15+ minutes | **< 6 minutes** |
 
-**Documentation Structure:**
-```markdown
-## Shariah Methodology Sources
+**This PRD is production-ready for global Muslims, especially the 250M+ South Asian expat population who think in sovereigns, lakhs, and portfolio values—not grams and share counts.**
 
-### Nisab Thresholds
-- Gold: 87.48g (20 Mithqal) - Source: [FCNA], [Islamic Relief]
-- Silver: 612.36g (200 Dirham) - Source: [NZF], [AAOIFI]
+## 13. Additional question and Answer
 
-### Zakat Rate
-- 2.5% (1/40) - Consensus of scholars - Source: [Quran 9:60], [Hadith]
+will it work for multiple currency for a single person?
 
-### Retirement Accounts
-- FCNA Method: Net accessible portion - Source: [FCNA Fatwa 2023]
-- Alternative: Delayed until withdrawal - Source: [AAOIFI Standard 35]
+ Yes, absolutely. The PRD already supports multiple currencies for a single person. Let me clarify and enhance this to make it explicit and robust.
 
-[Links to full fatwa documents]
+---
+
+## Multi-Currency Support for Single User (Enhanced Specification)
+
+### Current PRD Support
+
+| Feature | Implementation | Status |
+|---------|---------------|--------|
+| **Multiple cash accounts** | Each account has its own currency | ✅ PRD §4.1 |
+| **Currency conversion** | All normalized to base currency | ✅ PRD §4.2 |
+| **Dual display** | Base + optional home currency | ✅ PRD §4.3 (Expat feature) |
+| **Real-time rates** | ExchangeRate-API with 24hr cache | ✅ PRD §7.1 |
+
+---
+
+## Enhanced Multi-Currency Architecture
+
+### User Scenario: Mohamed's Multi-Currency Reality
+
+```
+Mohamed's Assets (Single User, Multiple Currencies):
+├── Cash & Bank Accounts
+│   ├── DBS Singapore:        SGD 100,000  (salary account)
+│   ├── ICICI India:          INR 8,00,000 (family savings)
+│   ├── NRE Account:          USD 5,000    (dollar savings)
+│   └── Wise Account:         EUR 2,500    (Europe travel fund)
+│
+├── Gold
+│   └── 15 sovereigns:        SGD 12,420   (auto-converted from gold price)
+│
+├── Stocks
+│   └── Total value:          SGD 45,000   (CDP Singapore)
+│
+└── Crypto
+    └── 0.45 BTC:             SGD 30,000   (CoinGecko API)
+
+BASE CURRENCY: SGD (for calculation)
+HOME CURRENCY: INR (for mental reference)
+
+All converted to SGD for Zakat calculation:
+SGD 100,000 + INR 8L (→ SGD 12,800) + USD 5K (→ SGD 6,750) 
++ EUR 2.5K (→ SGD 3,625) + SGD 12,420 + SGD 45,000 + SGD 30,000
+= SGD 210,595 total zakatable assets
 ```
 
-### 11.3 Transparency Features
-- **Methodology page:** Detailed explanation of every calculation
-- **Source citations:** Inline links to fatwa bodies
-- **Calculation steps:** Expandable view showing every math operation
-- **Version history:** Track changes to calculation logic
+---
+
+## Technical Implementation (Enhanced)
+
+### Data Model for Multi-Currency
+
+```typescript
+// src/types/index.ts
+
+interface CashAccount {
+  id: string;
+  accountName?: string;
+  amount: string;           // Stored as string for decimal.js precision
+  currency: string;         // ISO 4217: SGD, INR, USD, EUR, etc.
+  convertedToBase: string;  // Auto-calculated
+  exchangeRate: string;     // Rate used for conversion
+  lastUpdated: string;      // Timestamp
+}
+
+interface ZakatState {
+  preferences: {
+    baseCurrency: string;     // SGD - used for all calculations
+    homeCurrency?: string;    // INR - optional display only
+    displayFormat: "both" | "base-only" | "home-only";
+  };
+  
+  assets: {
+    cash: CashAccount[];      // Array supports unlimited accounts
+    // ... other assets
+  };
+}
+```
+
+### Currency Conversion Flow
+
+```
+User Input (Any Currency)
+    ↓
+[ExchangeRate-API] or [Cached Rate] or [Manual Override]
+    ↓
+Convert to Base Currency (decimal.js precision)
+    ↓
+Store: Original Amount + Converted Amount + Rate Used
+    ↓
+Display: Both currencies side-by-side
+    ↓
+Calculation Engine: Uses converted base currency amounts only
+```
+
+### UI: Multi-Currency Cash Input
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  💰 Cash & Bank Accounts                      [+ Add New] │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  Account #1: DBS Singapore                    [🗑️]     │
+│  Amount: [   100,000    ] [SGD ▼]                      │
+│  ≈ SGD 100,000.00 (base) • Rate: 1.000 • Live ✓        │
+│                                                         │
+│  ─────────────────────────────────────────────────────  │
+│                                                         │
+│  Account #2: ICICI India                        [🗑️]     │
+│  Amount: [  8,00,000    ] [INR ▼]                      │
+│  ≈ SGD 12,800.00 (base) • Rate: 0.0160 • Live ✓        │
+│  (₹ 8,00,000.00 in home currency)                      │
+│                                                         │
+│  ─────────────────────────────────────────────────────  │
+│                                                         │
+│  Account #3: NRE Dollar Account                 [🗑️]     │
+│  Amount: [    5,000     ] [USD ▼]                      │
+│  ≈ SGD 6,750.00 (base) • Rate: 1.350 • Live ✓        │
+│                                                         │
+│  ─────────────────────────────────────────────────────  │
+│                                                         │
+│  Account #4: Wise Travel Fund                   [🗑️]     │
+│  Amount: [    2,500     ] [EUR ▼]                      │
+│  ≈ SGD 3,625.00 (base) • Rate: 1.450 • Cached 2h ⚠     │
+│  [⚠️ Using rate from 2 hours ago - Refresh]            │
+│                                                         │
+├─────────────────────────────────────────────────────────┤
+│  CASH TOTALS:                                           │
+│  SGD 123,175.00 (base currency)                         │
+│  ≈ ₹ 76,98,437 (home currency)                          │
+│  ≈ € 82,116 • $91,241 (other conversions for reference) │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 12. Risks & Mitigations (Enhanced)
+## Enhanced Features for Multi-Currency (New Additions)
 
-| Risk | Impact | Mitigation | Status |
-|------|--------|------------|--------|
-| **GoldAPI rate limits (100/day)** | Medium | GitHub Actions daily commit + client-side with key + manual override | ✅ Resolved |
-| **ExchangeRate-API limits (1,500/month)** | Medium | 100 currencies (not 150), aggressive caching, committed fallback | ✅ Resolved |
-| **JavaScript floating-point errors** | **Critical** | **decimal.js for all calculations** | ✅ Resolved |
-| **Repository bloat from daily commits** | Medium | `git commit --amend` strategy | ✅ Resolved |
-| **Scholarly disagreement on methodology** | High | Clear toggles, source citations, "consult scholar" disclaimer | ✅ Resolved |
-| **CORS blocking on some APIs** | Medium | Verified CORS-enabled APIs, committed data fallback | ✅ Resolved |
-| **GitHub Actions minute limits** | Low | Daily runs only (not every 6 hours), efficient workflows | ✅ Resolved |
-| **Non-verified receivables methodology** | **Critical** | **Fixed: Strong/Doubtful only (no 50% rule)** | ✅ Resolved |
-| **Auto Nisab misrepresentation** | Medium | **Labeled as "convenience setting (not formal fiqh)"** | ✅ Resolved |
+### 1. Currency-Specific Formatting
 
----
+| Currency | Format Example | Notes |
+|----------|---------------|-------|
+| SGD | `SGD 100,000.50` | Standard international |
+| INR | `₹ 1,00,00,000.50` | Indian numbering (lakhs/crores) |
+| USD | `$100,000.50` | Dollar symbol prefix |
+| EUR | `€100.000,50` | European decimal comma |
+| AED | `AED 100,000.50` | Middle Eastern standard |
+| PKR | `₨ 1,00,00,000` | Pakistani rupee format |
+| BDT | `৳ 1,00,00,000` | Bangladeshi taka format |
 
-## 13. Final Checklist for Launch (Enhanced)
+### 2. Exchange Rate Transparency
 
-- [ ] **Core functionality:** Gold, silver, cash, crypto, liabilities
-- [ ] **decimal.js integration** for all financial calculations
-- [ ] **30+ unit tests** passing with 100% accuracy
-- [ ] **Multi-currency support** (100 currencies)
-- [ ] **Responsive design** (mobile, tablet, desktop)
-- [ ] **PDF export** functionality
-- [ ] **Scholarly toggles** with impact preview
-- [ ] **Source citations** and methodology documentation
-- [ ] **Privacy policy** and transparency report
-- [ ] **Security headers** (CSP) configured
-- [ ] **GitHub Actions** price updater with git amend
-- [ ] **Offline fallback** with committed price data
-- [ ] **Accessibility audit** (WCAG 2.1 AA)
-- [ ] **Cross-browser testing** (Chrome, Firefox, Safari, Edge)
-- [ ] **Mobile testing** (iOS Safari, Android Chrome)
-- [ ] **Performance audit** (Lighthouse > 90)
-- [ ] **README** with comprehensive documentation
-- [ ] **MIT License** applied
-- [ ] **Custom domain** configured (optional: zakatcalc.org)
+```
+Each converted amount shows:
+- Original amount in source currency
+- Conversion rate used
+- Timestamp of rate (Live / Cached Xh ago / Manual)
+- Source (API / Cache / User entered)
 
----
+Click [ℹ️] to see:
+- Rate source: ExchangeRate-API
+- Last updated: 2026-02-18 14:30 UTC
+- Next refresh: 2026-02-19 14:30 UTC (24hr cache)
+- [Refresh now] [Enter custom rate]
+```
 
-## 14. Summary of Critical Fixes Applied
+### 3. Manual Rate Override (Critical for Multi-Currency)
 
-| Issue | Original | Fixed |
-|-------|----------|-------|
-| **Receivables methodology** | High/Medium/Low = 100%/50%/0% | **Strong/Doubtful = 100% yearly / 0% yearly (pay upon recovery)** |
-| **Auto Nisab labeling** | Presented as standard option | **Labeled as "Convenience setting (not formal fiqh position)"** |
-| **GoldAPI key exposure** | Claimed "no API keys" | **Acknowledged free tier key exposure is acceptable, with GitHub Actions backup** |
-| **JavaScript floating-point math** | Native JavaScript numbers | **decimal.js for all financial calculations** |
-| **Repository bloat** | Daily commits accumulating | **git commit --amend strategy** |
-| **Currency count** | 150+ currencies | **100 currencies to fit API limits** |
-| **Hawl due date** | "1 year from today" | **"Based on your hawl anniversary" with date tracking** |
-| **Bundle size** | Unspecified | **< 100KB MVP, < 350KB full with lazy loading** |
-| **Scholarly validation** | Mentioned | **Formal review board process with fatwa documentation** |
+When APIs fail or user disagrees with rate:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  [⚠️ API unavailable for EUR-SGD rate]                  │
+│                                                         │
+│  Last known rate: 1.450 (2 hours ago)                   │
+│                                                         │
+│  [Use last known: SGD 3,625]                            │
+│  [Enter custom rate: _______]                           │
+│  [Enter fixed SGD amount: _______]                      │
+│                                                         │
+│  ℹ️ Your Zakat calculation will use whatever rate you    │
+│     specify. Consult your bank for exact rates.         │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 15. Final Verdict
+## Updated Master Prompt (Multi-Currency Explicit)
 
-**This PRD is production-ready** with all critical issues from the comprehensive review addressed:
+Add to your master prompt:
 
-✅ **Technical accuracy:** decimal.js for precision, correct API strategies
-✅ **Scholarly integrity:** Verified methodologies, source citations, review board
-✅ **GitHub Pages optimization:** Static-first, no backend, cost-free
-✅ **User experience:** Impact previews, transparency, accessibility
-✅ **Privacy & security:** CSP headers, no tracking, client-side only
-✅ **Maintainability:** Clear roadmap, modular architecture, open source
+```
+MULTI-CURRENCY SUPPORT (Single User):
+- Unlimited cash accounts, each with independent currency
+- 100 fiat currencies supported (ISO 4217)
+- All amounts converted to base currency using decimal.js
+- Display: Original currency + Base currency + Optional home currency
+- Exchange rate transparency: show rate, timestamp, source for every conversion
+- Manual rate override always available per account
+- Currency-specific formatting (Indian numbering for INR, etc.)
+- 24-hour rate caching with stale data warnings
+- Fallback chain: Live API → Cached → Committed prices.json → Manual
 
-**Estimated Timeline:** 8 weeks for full feature set, 2 weeks for MVP
+CRITICAL: Never force user to convert manually. System handles all math.
+```
 
-**Estimated Cost:** $0 (within all free tiers)
+---
 
-**Next Steps:**
-1. Set up GitHub repository with MIT license
-2. Configure GitHub Actions with GoldAPI key
-3. Build MVP (Weeks 1-2)
-4. Deploy to GitHub Pages
-5. Recruit scholarly review board
-6. Iterate based on user feedback
+## Test Case: Multi-Currency (New)
+
+```typescript
+// tests/unit/multi-currency.test.ts
+
+test('Multiple currencies convert correctly to base', () => {
+  const accounts = [
+    { amount: '100000', currency: 'SGD', base: 'SGD' },  // SGD 100,000
+    { amount: '800000', currency: 'INR', base: 'SGD' },   // INR 8L → SGD 12,800
+    { amount: '5000', currency: 'USD', base: 'SGD' },   // USD 5K → SGD 6,750
+    { amount: '2500', currency: 'EUR', base: 'SGD' },    // EUR 2.5K → SGD 3,625
+  ];
+  
+  const total = calculateMultiCurrencyTotal(accounts, {
+    'INR-SGD': '0.0160',
+    'USD-SGD': '1.350',
+    'EUR-SGD': '1.450',
+  });
+  
+  expect(total.toString()).toBe('123175.00'); // SGD 123,175
+});
+```
+
+---
+
+## Summary
+
+| Question | Answer |
+|----------|--------|
+| Multiple currencies per person? | ✅ Yes, unlimited accounts |
+| Mix SGD, INR, USD, EUR, etc.? | ✅ Yes, all supported |
+| Real-time conversion? | ✅ Yes, with 24hr cache |
+| Show both original and converted? | ✅ Yes, side-by-side |
+| What if API fails? | ✅ Cached → Manual override |
+| Indian numbering for INR? | ✅ Yes, `₹ 1,00,000` format |
+| Can I override a specific rate? | ✅ Yes, per account |
+
+**The system is designed for exactly Mohamed's scenario: one person, multiple currencies, zero friction.**
