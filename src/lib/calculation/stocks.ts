@@ -7,20 +7,26 @@ import { Decimal, safeDecimal, ZERO, ZAKAT_RATE } from '@/utils/decimal';
 import type { StockHolding } from '@/types';
 
 /**
- * AAOIFI simplified method: 30% of total market value is zakatable.
- * PRD §4.4 – "Quick: 2.5% on total value; Simplified: market_value × 0.30"
- * Test #35: Stock quick mode (total value → 30% zakatable)
+ * Simplified asset-proxy ratio (30%).
+ * This is a HEURISTIC used by some scholars as a proxy for the asset-based method
+ * (estimating that ~30% of a company's market value represents zakatable liquid assets).
+ * It is NOT a formal ruling from AAOIFI or any major Islamic body.
+ * Kept here for future "advanced / detailed" mode only — NOT used as a default.
+ *
+ * Default (quick mode): 2.5% on full market value — widely accepted across scholars.
  */
-export const SIMPLIFIED_ZAKATABLE_RATIO = new Decimal('0.30');
+export const ASSET_PROXY_RATIO = new Decimal('0.30');
 
 /**
  * Calculate zakatable amount and Zakat due for a stock holding.
  *
- * Quick mode (PRD §4.4):
- *   zakatable = totalValue × 0.30 (AAOIFI estimation)
- *   zakatDue  = zakatable × 0.025
+ * Quick mode (corrected methodology):
+ *   BOTH trading and long-term → 2.5% on full market value.
+ *   Reason: 2.5% on market value is the broadest scholarly consensus and the
+ *   most conservative (safest) approach. The 30% proxy is a disputed heuristic,
+ *   not a formal standard — using it as a default would understate Zakat by 70%.
  *
- * Detailed mode (PRD §4.1 Stocks Trading):
+ * Detailed mode:
  *   zakatable = marketValue (2.5% on full market value)
  *   zakatDue  = marketValue × 0.025
  */
@@ -30,9 +36,10 @@ export function calcStockZakat(holding: StockHolding): {
 } {
   if (holding.mode === 'quick') {
     const totalValue = safeDecimal(holding.totalValue ?? '0');
-    // PRD §4.4: trading stocks → 100% zakatable; long-term → 30% (AAOIFI estimation)
-    const ratio = holding.holdingType === 'trading' ? new Decimal('1') : SIMPLIFIED_ZAKATABLE_RATIO;
-    const zakatable = totalValue.mul(ratio);
+    // Both trading and long-term: 2.5% on full market value.
+    // Scholars agree trading stocks → full value; for long-term the conservative
+    // default (full market value) avoids any risk of underpaying.
+    const zakatable = totalValue; // 100% zakatable
     const zakatDue = zakatable.mul(ZAKAT_RATE);
     return { zakatable, zakatDue };
   }

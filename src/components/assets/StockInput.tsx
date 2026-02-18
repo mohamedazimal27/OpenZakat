@@ -1,5 +1,6 @@
 // PRD §4.1 – Stocks: Quick mode (total value) + Detailed mode
-// PRD §4.4 – Quick Stock Mode: total value → 30% zakatable (AAOIFI)
+// PRD §4.4 – Quick Stock Mode: 2.5% on full market value (default for all holding types)
+// Methodology: full market value is the broadest scholarly consensus & most conservative default.
 import { Plus, Trash2, Info } from 'lucide-react';
 import { useStore } from '@/store';
 import { formatCurrency } from '@/utils/formatters';
@@ -64,7 +65,12 @@ export function StockInput() {
                 </div>
                 <div className="flex items-start gap-1.5 rounded-lg bg-blue-50 px-3 py-2 text-xs text-blue-700">
                   <Info className="h-3.5 w-3.5 mt-0.5 shrink-0" />
-                  <span>Using simplified 30% method (AAOIFI estimation)</span>
+                  <span>
+                    2.5% applied to full market value — the widely accepted default across scholars.
+                    {holding.holdingType === 'long-term' && (
+                      <> Scholars differ on long-term investments; full market value is the safest (most conservative) approach.</>
+                    )}
+                  </span>
                 </div>
                 {parseFloat(holding.totalValue ?? '0') > 0 && (
                   <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs space-y-0.5">
