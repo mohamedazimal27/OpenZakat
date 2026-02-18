@@ -18,7 +18,7 @@ export function RegionalPresetModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl">
+      <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl flex flex-col max-h-[92vh]">
         {/* Header */}
         <div className="flex items-center justify-between border-b px-6 py-4">
           <div className="flex items-center gap-2">
@@ -33,8 +33,8 @@ export function RegionalPresetModal() {
           </button>
         </div>
 
-        {/* Body */}
-        <div className="px-6 py-4">
+        {/* Body — scrollable so header/footer always visible */}
+        <div className="px-6 py-4 overflow-y-auto flex-1">
           {/* What does a preset do? */}
           <div className="mb-4 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
             <p className="text-xs font-semibold text-emerald-800 mb-1">⚡ One-click configuration — sets all at once:</p>
