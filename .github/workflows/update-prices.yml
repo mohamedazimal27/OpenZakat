@@ -1,0 +1,65 @@
+# PRD §7.1 – Daily price updater with git amend (keeps repo small)
+name: Update Market Prices
+on:
+  schedule:
+    - cron: '0 6 * * *'   # Daily 6 AM UTC
+  workflow_dispatch:
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch Exchange Rates
+        run: |
+          mkdir -p src/data/prices
+          curl -sf "https://api.exchangerate-api.com/v4/latest/USD" \
+            -o src/data/prices/rates.json || echo '{"rates":{}}' > src/data/prices/rates.json
+
+      - name: Fetch Gold & Silver Prices (GoldAPI)
+        env:
+          GOLD_API_KEY: ${{ secrets.GOLD_API_KEY }}
+        run: |
+          if [ -n "$GOLD_API_KEY" ]; then
+            curl -sf -H "x-access-token: $GOLD_API_KEY" \
+              "https://www.goldapi.io/api/XAU/USD" -o src/data/prices/gold.json \
+              || echo '{"price_gram_22k":82.5}' > src/data/prices/gold.json
+            curl -sf -H "x-access-token: $GOLD_API_KEY" \
+              "https://www.goldapi.io/api/XAG/USD" -o src/data/prices/silver.json \
+              || echo '{"price_gram":0.96}' > src/data/prices/silver.json
+          else
+            echo "No GOLD_API_KEY — keeping committed fallback prices"
+          fi
+
+      - name: Fetch Crypto Prices (CoinGecko free tier)
+        run: |
+          curl -sf \
+            "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana,cardano,ripple,polkadot,dogecoin,avalanche-2,chainlink,litecoin,polygon,stellar,monero,uniswap,cosmos,algorand,filecoin,hedera&vs_currencies=usd" \
+            -o src/data/prices/crypto.json \
+            || echo '{"bitcoin":{"usd":65000},"ethereum":{"usd":3500}}' > src/data/prices/crypto.json
+
+      - name: Write last-update timestamp
+        run: date -u +"%Y-%m-%dT%H:%M:%SZ" > src/data/prices/last-update.txt
+
+      - name: Commit prices (amend if previous commit was a price update)
+        run: |
+          git config user.name "GitHub Actions [Price Bot]"
+          git config user.email "action@github.com"
+          git add src/data/prices/
+          if git diff --cached --quiet; then
+            echo "No price changes detected — skip commit"
+            exit 0
+          fi
+          LAST_MSG=$(git log -1 --pretty=%B)
+          if echo "$LAST_MSG" | grep -q "^Daily price update:"; then
+            git commit --amend -m "Daily price update: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push --force-with-lease
+          else
+            git commit -m "Daily price update: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi

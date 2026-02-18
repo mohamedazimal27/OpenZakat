@@ -1,0 +1,59 @@
+{
+  "standards": [
+    {
+      "id": "india",
+      "label": "India (22K = 91.6%)",
+      "region": "India",
+      "karat22Purity": 0.916,
+      "karat24Purity": 0.9999,
+      "karat21Purity": 0.875,
+      "karat18Purity": 0.75,
+      "defaultKarat": 22,
+      "notes": "BIS hallmarking standard"
+    },
+    {
+      "id": "middle-east",
+      "label": "Middle East (22K = 91.7%)",
+      "region": "UAE, Saudi Arabia, Kuwait",
+      "karat22Purity": 0.917,
+      "karat24Purity": 0.9999,
+      "karat21Purity": 0.875,
+      "karat18Purity": 0.75,
+      "defaultKarat": 22,
+      "notes": "Gulf Cooperation Council standard"
+    },
+    {
+      "id": "thailand",
+      "label": "Thailand (96.5%)",
+      "region": "Thailand",
+      "karat22Purity": 0.965,
+      "karat24Purity": 0.9999,
+      "karat21Purity": 0.875,
+      "karat18Purity": 0.75,
+      "defaultKarat": 23,
+      "notes": "Thai gold standard (23.16K equivalent)"
+    },
+    {
+      "id": "hongkong",
+      "label": "Hong Kong (99% or 91.6%)",
+      "region": "China, Hong Kong",
+      "karat22Purity": 0.916,
+      "karat24Purity": 0.99,
+      "karat21Purity": 0.875,
+      "karat18Purity": 0.75,
+      "defaultKarat": 24,
+      "notes": "HK 999 gold or 22K"
+    },
+    {
+      "id": "custom",
+      "label": "Custom Karat...",
+      "region": "Custom",
+      "karat22Purity": 0.9167,
+      "karat24Purity": 0.9999,
+      "karat21Purity": 0.875,
+      "karat18Purity": 0.75,
+      "defaultKarat": 22,
+      "notes": "User-defined purity"
+    }
+  ]
+}
