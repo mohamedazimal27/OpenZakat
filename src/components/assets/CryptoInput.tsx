@@ -5,6 +5,7 @@ import { TOP_50_COINS } from '@/data/coins';
 import { formatCurrency } from '@/utils/formatters';
 import { safeDecimal, Decimal } from '@/utils/decimal';
 import type { WalletType } from '@/types';
+import { t } from '@/i18n';
 
 const WALLET_TYPES: { value: WalletType; label: string; note: string }[] = [
   { value: 'exchange', label: 'Exchange', note: 'Zakatable' },
@@ -14,6 +15,7 @@ const WALLET_TYPES: { value: WalletType; label: string; note: string }[] = [
 
 export function CryptoInput() {
   const { assets, addCrypto, updateCrypto, removeCrypto, cryptoPrices, exchangeRates, preferences } = useStore();
+  const language = preferences.language;
 
   const handleAdd = () => {
     addCrypto({ coinId: 'bitcoin', coinSymbol: 'BTC', coinName: 'Bitcoin', amount: '', walletType: 'exchange' });
@@ -29,21 +31,21 @@ export function CryptoInput() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">🪙 Cryptocurrency</h3>
+        <h3 className="text-base font-semibold text-gray-900">🪙 {t('asset.crypto.title', language)}</h3>
         <button onClick={handleAdd} className="flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-600">
-          <Plus className="h-3.5 w-3.5" /> Add Crypto
+          <Plus className="h-3.5 w-3.5" /> {t('asset.crypto.add', language)}
         </button>
       </div>
 
       {assets.crypto.length === 0 && (
-        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">No crypto holdings added yet</div>
+        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">{t('asset.crypto.empty', language)}</div>
       )}
 
       {assets.crypto.map((holding) => (
         <div key={holding.id} className="rounded-xl border border-gray-200 bg-white p-4 space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Coin</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.crypto.coin', language)}</label>
               <select
                 value={holding.coinId}
                 onChange={(e) => {
@@ -56,18 +58,22 @@ export function CryptoInput() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Amount</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.amount', language)}</label>
               <input type="number" min="0" step="0.00000001" value={holding.amount}
                 onChange={(e) => updateCrypto(holding.id, { amount: e.target.value })}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="0" />
             </div>
             <div className="col-span-2">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Wallet Type</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.crypto.walletType', language)}</label>
               <div className="flex gap-2">
                 {WALLET_TYPES.map(w => (
                   <button key={w.value} onClick={() => updateCrypto(holding.id, { walletType: w.value })}
                     className={`flex-1 rounded-lg border py-1.5 text-xs font-medium transition-all ${holding.walletType === w.value ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 text-gray-600'}`}>
-                    {w.label}
+                    {w.value === 'exchange'
+                      ? t('asset.crypto.wallet.exchange', language)
+                      : w.value === 'hardware'
+                        ? t('asset.crypto.wallet.hardware', language)
+                        : t('asset.crypto.wallet.lost', language)}
                   </button>
                 ))}
               </div>
@@ -76,7 +82,7 @@ export function CryptoInput() {
           <div className="flex justify-between items-center">
             <div className="text-xs">
               {holding.walletType === 'lost' ? (
-                <span className="text-red-500">⚠️ Excluded from Zakat (lost wallet)</span>
+                <span className="text-red-500">⚠️ {t('asset.crypto.excludedLost', language)}</span>
               ) : (
                 <span className="text-emerald-600 font-semibold">
                   {formatCurrency(calcValue(holding.coinId, holding.amount, holding.walletType), preferences.baseCurrency, preferences.numberingFormat)}

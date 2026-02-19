@@ -16,6 +16,7 @@ export type DebtTerm = 'short-term' | 'long-term';
 export type PropertyType = 'primary' | 'rental' | 'flipping';
 export type NumberingFormat = 'international' | 'indian';
 export type Theme = 'light' | 'dark' | 'system';
+export type LanguageCode = 'en' | 'ta' | 'ur' | 'ar';
 export type NisabBasis = 'silver' | 'gold' | 'auto';
 export type DebtDeductionMethod = 'majority' | 'hanafi';
 export type RetirementMethod = 'fcna' | 'delayed';
@@ -145,7 +146,7 @@ export interface Methodology {
 export interface Preferences {
   baseCurrency: string;
   homeCurrency?: string;
-  language: string;
+  language: LanguageCode;
   theme: Theme;
   regionalPreset?: RegionalPresetId;
   goldUnit: GoldUnit;
@@ -230,6 +231,7 @@ export interface RegionalPreset {
   description: string;
   baseCurrency: string;
   homeCurrency?: string;
+  language: LanguageCode;
   goldUnit: GoldUnit;
   stockInputMode: StockInputMode;
   numberingFormat: NumberingFormat;

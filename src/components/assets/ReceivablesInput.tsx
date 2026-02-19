@@ -6,9 +6,11 @@ import { formatCurrency } from '@/utils/formatters';
 import { SORTED_CURRENCIES } from '@/data/currencies';
 import { cn } from '@/components/common/cn';
 import type { ReceivableReliability } from '@/types';
+import { t } from '@/i18n';
 
 export function ReceivablesInput() {
   const { assets, addReceivable, updateReceivable, removeReceivable, exchangeRates, preferences } = useStore();
+  const language = preferences.language;
 
   const handleAdd = () => {
     addReceivable({ amount: '', currency: preferences.baseCurrency, reliability: 'strong', expectedDate: '', description: '' });
@@ -17,14 +19,14 @@ export function ReceivablesInput() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">💳 Receivables</h3>
+        <h3 className="text-base font-semibold text-gray-900">💳 {t('asset.receivables.title', language)}</h3>
         <button onClick={handleAdd} className="flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-teal-700">
-          <Plus className="h-3.5 w-3.5" /> Add Receivable
+          <Plus className="h-3.5 w-3.5" /> {t('asset.receivables.add', language)}
         </button>
       </div>
 
       {assets.receivables.length === 0 && (
-        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">No receivables added yet</div>
+        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">{t('asset.receivables.empty', language)}</div>
       )}
 
       {assets.receivables.map((item) => {
@@ -33,31 +35,31 @@ export function ReceivablesInput() {
           <div key={item.id} className="rounded-xl border border-gray-200 bg-white p-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.description', language)}</label>
                 <input type="text" value={item.description} onChange={(e) => updateReceivable(item.id, { description: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="e.g. Loan to friend" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Amount</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.amount', language)}</label>
                 <input type="number" min="0" value={item.amount} onChange={(e) => updateReceivable(item.id, { amount: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="0" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Currency</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.currency', language)}</label>
                 <select value={item.currency} onChange={(e) => updateReceivable(item.id, { currency: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
                   {SORTED_CURRENCIES.map(c => <option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>)}
                 </select>
               </div>
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">Debtor Reliability</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.receivables.reliability', language)}</label>
                 <div className="flex gap-2">
                   {(['strong', 'doubtful'] as ReceivableReliability[]).map(r => (
                     <button key={r} onClick={() => updateReceivable(item.id, { reliability: r })}
                       className={cn('flex-1 rounded-lg border py-1.5 text-xs font-medium', item.reliability === r
                         ? r === 'strong' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-amber-400 bg-amber-50 text-amber-700'
                         : 'border-gray-200 text-gray-600')}>
-                      {r === 'strong' ? '✅ Strong (100% zakatable)' : '⚠️ Doubtful (excluded)'}
+                      {r === 'strong' ? `✅ ${t('asset.receivables.strong', language)}` : `⚠️ ${t('asset.receivables.doubtful', language)}`}
                     </button>
                   ))}
                 </div>
@@ -66,7 +68,7 @@ export function ReceivablesInput() {
             <div className="flex justify-between items-center">
               <span className="text-xs">
                 {item.reliability === 'doubtful'
-                  ? <span className="text-amber-600">Excluded from Zakat (doubtful debt)</span>
+                  ? <span className="text-amber-600">{t('asset.receivables.excludedDoubtful', language)}</span>
                   : <span className="text-emerald-600 font-semibold">{formatCurrency(converted, preferences.baseCurrency, preferences.numberingFormat)}</span>
                 }
               </span>

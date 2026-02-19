@@ -7,6 +7,7 @@ import { X, BookOpen, Info } from 'lucide-react';
 import { useStore } from '@/store';
 import { cn } from '@/components/common/cn';
 import type { Methodology } from '@/types';
+import { t } from '@/i18n';
 
 interface ToggleGroupProps {
   label: string;
@@ -47,6 +48,7 @@ function ToggleGroup({ label, tooltip, value, options, onChange }: ToggleGroupPr
 
 export function MethodologyModal() {
   const { showMethodologyModal, setShowMethodologyModal, preferences, setPreferences } = useStore();
+  const language = preferences.language;
 
   if (!showMethodologyModal) return null;
 
@@ -65,7 +67,7 @@ export function MethodologyModal() {
         <div className="flex items-center justify-between border-b px-6 py-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-emerald-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Scholarly Methodology</h2>
+            <h2 className="text-lg font-semibold text-gray-900">{t('methodology.title', language)}</h2>
           </div>
           <button onClick={() => setShowMethodologyModal(false)} className="rounded-lg p-1 hover:bg-gray-100">
             <X className="h-5 w-5 text-gray-500" />
@@ -161,7 +163,7 @@ export function MethodologyModal() {
             onClick={() => setShowMethodologyModal(false)}
             className="w-full rounded-xl bg-emerald-600 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
           >
-            Done
+            {t('methodology.done', language)}
           </button>
         </div>
       </div>

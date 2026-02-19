@@ -21,23 +21,14 @@ import { ReceivablesInput } from '@/components/assets/ReceivablesInput';
 import { LiabilitiesInput } from '@/components/assets/LiabilitiesInput';
 import { ResultsPanel } from '@/components/results/ResultsPanel';
 import { cn } from '@/components/common/cn';
-
-const SECTIONS = [
-  { id: 'gold',        label: '🥇 Gold',        component: GoldInput },
-  { id: 'silver',      label: '🥈 Silver',      component: SilverInput },
-  { id: 'cash',        label: '💰 Cash',        component: CashInput },
-  { id: 'crypto',      label: '🪙 Crypto',      component: CryptoInput },
-  { id: 'stocks',      label: '📈 Stocks',      component: StockInput },
-  { id: 'retirement',  label: '🏦 Retirement',  component: RetirementInput },
-  { id: 'receivables', label: '💳 Receivables', component: ReceivablesInput },
-  { id: 'liabilities', label: '⚠️ Liabilities', component: LiabilitiesInput },
-];
+import { RTL_LANGUAGES, t } from '@/i18n';
 
 // ── Mobile Sticky Bottom Bar ──────────────────────────────
 function MobileBottomBar() {
   const { result, preferences } = useStore();
   const base = preferences.baseCurrency;
   const fmt  = preferences.numberingFormat;
+  const language = preferences.language;
 
   const zakatDue  = result ? parseFloat(result.zakatDue)  : 0;
   const netWealth = result ? parseFloat(result.netWealth) : 0;
@@ -48,21 +39,21 @@ function MobileBottomBar() {
       <div className="flex items-center justify-between px-4 py-2.5">
         {/* Net Wealth */}
         <div className="min-w-0">
-          <p className="text-[10px] font-medium uppercase tracking-wide text-gray-400">Net Wealth</p>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-gray-400">{t('mobile.netWealth', language)}</p>
           <p className="text-sm font-bold text-gray-800 truncate">{formatCurrency(netWealth, base, fmt)}</p>
         </div>
 
         {/* Nisab status */}
         <div className="text-center px-3">
           {nisabMet
-            ? <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">✅ Nisab Met</span>
-            : <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-600">❌ Not Met</span>
+            ? <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">✅ {t('mobile.nisabMet', language)}</span>
+            : <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-600">❌ {t('mobile.notMet', language)}</span>
           }
         </div>
 
         {/* Zakat Due — most prominent */}
         <div className="text-right min-w-0">
-          <p className="text-[10px] font-medium uppercase tracking-wide text-emerald-600">Zakat Due</p>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-emerald-600">{t('mobile.zakatDue', language)}</p>
           <p className="text-base font-extrabold text-emerald-700 truncate">{formatCurrency(zakatDue, base, fmt)}</p>
         </div>
       </div>
@@ -72,14 +63,31 @@ function MobileBottomBar() {
 
 // ── App ───────────────────────────────────────────────────
 export default function App() {
-  const { fetchPrices, recalculate, activeSection, setActiveSection } = useStore();
+  const { fetchPrices, recalculate, activeSection, setActiveSection, preferences } = useStore();
+  const language = preferences.language;
+
+  const sections = [
+    { id: 'gold',        label: `🥇 ${t('section.gold', language)}`,        component: GoldInput },
+    { id: 'silver',      label: `🥈 ${t('section.silver', language)}`,      component: SilverInput },
+    { id: 'cash',        label: `💰 ${t('section.cash', language)}`,        component: CashInput },
+    { id: 'crypto',      label: `🪙 ${t('section.crypto', language)}`,      component: CryptoInput },
+    { id: 'stocks',      label: `📈 ${t('section.stocks', language)}`,      component: StockInput },
+    { id: 'retirement',  label: `🏦 ${t('section.retirement', language)}`,  component: RetirementInput },
+    { id: 'receivables', label: `💳 ${t('section.receivables', language)}`, component: ReceivablesInput },
+    { id: 'liabilities', label: `⚠️ ${t('section.liabilities', language)}`, component: LiabilitiesInput },
+  ];
 
   useEffect(() => {
     fetchPrices().then(() => recalculate());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const ActiveComponent = SECTIONS.find(s => s.id === activeSection)?.component ?? GoldInput;
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = RTL_LANGUAGES.has(language) ? 'rtl' : 'ltr';
+  }, [language]);
+
+  const ActiveComponent = sections.find(s => s.id === activeSection)?.component ?? GoldInput;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -97,14 +105,14 @@ export default function App() {
             </div>
             <div className="leading-tight">
               <h1 className="text-base font-bold text-gray-900">OpenZakat</h1>
-              <p className="hidden sm:block text-[10px] text-gray-400">Free Precision Zakat Calculator</p>
+              <p className="hidden sm:block text-[10px] text-gray-400">{t('app.tagline', language)}</p>
             </div>
           </div>
 
           {/* Right actions */}
           <div className="flex items-center gap-1.5">
             <span className="hidden md:inline-flex items-center rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-              100% Client-Side
+              {t('app.clientSide', language)}
             </span>
             <a
               href="https://github.com/mohamedazimal27/OpenZakat"
@@ -129,7 +137,7 @@ export default function App() {
 
             {/* Section Nav — horizontal scroll on mobile */}
             <div className="flex gap-1.5 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-0.5">
-              {SECTIONS.map(s => (
+              {sections.map(s => (
                 <button
                   key={s.id}
                   onClick={() => setActiveSection(s.id)}
@@ -171,9 +179,9 @@ export default function App() {
       {/* ── Footer ──────────────────────────────────────── */}
       <footer className="border-t mt-6 py-5 text-center text-xs text-gray-400">
         <div className="flex flex-wrap justify-center gap-x-2 gap-y-1">
-          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-emerald-700 font-medium">100% Free</span>
-          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">Privacy-First</span>
-          <span className="rounded-full bg-purple-100 px-2 py-0.5 text-purple-700 font-medium">Open Source</span>
+          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-emerald-700 font-medium">{t('footer.free', language)}</span>
+          <span className="rounded-full bg-blue-100 px-2 py-0.5 text-blue-700 font-medium">{t('footer.privacy', language)}</span>
+          <span className="rounded-full bg-purple-100 px-2 py-0.5 text-purple-700 font-medium">{t('footer.opensource', language)}</span>
         </div>
         <p className="mt-2">
           OpenZakat v3.0 · MIT License ·{' '}

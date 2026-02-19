@@ -14,12 +14,14 @@ import { calcPureGoldGrams } from '@/utils/unitConversion';
 import { formatCurrency } from '@/utils/formatters';
 import { Decimal, safeDecimal } from '@/utils/decimal';
 import type { GoldHolding, GoldUnit, GoldPuritySource } from '@/types';
+import { t } from '@/i18n';
 
 const PURITY_SOURCES = purityData.standards;
 
 function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
   const { updateGold, removeGold, metalPrices, exchangeRates, preferences } = useStore();
   const [expanded, setExpanded] = useState(true);
+  const language = preferences.language;
 
   const weight = parseFloat(holding.weight) || 0;
   const customRatio = holding.puritySource === 'custom' && holding.customKarat
@@ -35,7 +37,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
     <div className="rounded-xl border border-gray-200 bg-white">
       <div className="flex items-center justify-between px-4 py-3 cursor-pointer" onClick={() => setExpanded(!expanded)}>
         <span className="font-medium text-gray-800 text-sm">
-          🥇 Gold Holding — {holding.weight} {GOLD_UNIT_OPTIONS.find(u => u.unit === holding.unit)?.label.split(' ')[0]}
+          🥇 {t('asset.gold.holding', language)} — {holding.weight} {GOLD_UNIT_OPTIONS.find(u => u.unit === holding.unit)?.label.split(' ')[0]}
         </span>
         <div className="flex items-center gap-2">
           <span className="text-xs text-emerald-600 font-semibold">
@@ -53,7 +55,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
           <div className="grid grid-cols-2 gap-3">
             {/* Unit */}
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Unit</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.gold.unit', language)}</label>
               <select
                 value={holding.unit}
                 onChange={(e) => updateGold(holding.id, { unit: e.target.value as GoldUnit })}
@@ -67,7 +69,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
 
             {/* Weight */}
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Weight</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.gold.weight', language)}</label>
               <input
                 type="number"
                 min="0"
@@ -81,7 +83,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
 
             {/* Purity Source */}
             <div className="col-span-2">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Purity Standard</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.gold.purityStandard', language)}</label>
               <select
                 value={holding.puritySource}
                 onChange={(e) => updateGold(holding.id, { puritySource: e.target.value as GoldPuritySource })}
@@ -96,7 +98,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
             {/* Custom karat */}
             {holding.puritySource === 'custom' && (
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">Custom Purity Ratio (e.g. 0.916)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.gold.customPurity', language)}</label>
                 <input
                   type="number"
                   min="0.001"
@@ -113,10 +115,10 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
           {/* Calculation breakdown */}
           {weight > 0 && (
             <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-600 space-y-0.5">
-              <div>{weight} {holding.unit} × {GOLD_UNIT_OPTIONS.find(u => u.unit === holding.unit)?.gramsPerUnit}g = {grossGrams.toFixed(3)}g gross</div>
-              <div>{grossGrams.toFixed(3)}g × {((customRatio ?? 0.916) * 100).toFixed(1)}% = {pureGrams.toFixed(3)}g pure gold</div>
+              <div>{weight} {holding.unit} × {GOLD_UNIT_OPTIONS.find(u => u.unit === holding.unit)?.gramsPerUnit}g = {grossGrams.toFixed(3)}g {t('asset.gold.breakdownGross', language)}</div>
+              <div>{grossGrams.toFixed(3)}g × {((customRatio ?? 0.916) * 100).toFixed(1)}% = {pureGrams.toFixed(3)}g {t('asset.gold.breakdownPure', language)}</div>
               <div className="font-semibold text-emerald-700">
-                Value: {formatCurrency(valueBase.toNumber(), preferences.baseCurrency, preferences.numberingFormat)}
+                {t('asset.common.value', language)}: {formatCurrency(valueBase.toNumber(), preferences.baseCurrency, preferences.numberingFormat)}
               </div>
             </div>
           )}
@@ -128,6 +130,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
 
 export function GoldInput() {
   const { assets, addGold, preferences } = useStore();
+  const language = preferences.language;
 
   const handleAdd = () => {
     addGold({
@@ -140,19 +143,19 @@ export function GoldInput() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">🥇 Gold</h3>
+        <h3 className="text-base font-semibold text-gray-900">🥇 {t('asset.gold.title', language)}</h3>
         <button
           onClick={handleAdd}
           className="flex items-center gap-1.5 rounded-lg bg-yellow-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-yellow-600"
         >
           <Plus className="h-3.5 w-3.5" />
-          Add Gold
+          {t('asset.gold.add', language)}
         </button>
       </div>
 
       {assets.gold.length === 0 && (
         <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">
-          No gold holdings added yet
+          {t('asset.gold.empty', language)}
         </div>
       )}
 

@@ -11,9 +11,11 @@ import { formatCurrency, hoursAgo, isStale } from '@/utils/formatters';
 import { SORTED_CURRENCIES } from '@/data/currencies';
 import { cn } from '@/components/common/cn';
 import type { CashAccount } from '@/types';
+import { t } from '@/i18n';
 
 export function CashInput() {
   const { assets, addCash, updateCash, removeCash, exchangeRates, preferences, fetchPrices } = useStore();
+  const language = preferences.language;
 
   const handleAdd = () => {
     const { converted, rate } = convertToBase('0', preferences.baseCurrency, preferences.baseCurrency, exchangeRates.rates);
@@ -53,15 +55,15 @@ export function CashInput() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">💰 Cash & Banks</h3>
+        <h3 className="text-base font-semibold text-gray-900">💰 {t('asset.cash.title', language)}</h3>
         <button onClick={handleAdd} className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700">
-          <Plus className="h-3.5 w-3.5" /> Add Account
+          <Plus className="h-3.5 w-3.5" /> {t('asset.cash.add', language)}
         </button>
       </div>
 
       {assets.cash.length === 0 && (
         <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">
-          No cash accounts added yet
+          {t('asset.cash.empty', language)}
         </div>
       )}
 
@@ -71,7 +73,7 @@ export function CashInput() {
           <div key={account.id} className="rounded-xl border border-gray-200 bg-white p-4 space-y-3">
             <div className="grid grid-cols-3 gap-2">
               <div className="col-span-2">
-                <label className="block text-xs font-medium text-gray-600 mb-1">Account Name</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.accountName', language)}</label>
                 <input
                   type="text"
                   value={account.accountName}
@@ -81,7 +83,7 @@ export function CashInput() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Currency</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.currency', language)}</label>
                 <select
                   value={account.currency}
                   onChange={(e) => handleCurrencyChange(account, e.target.value)}
@@ -95,7 +97,7 @@ export function CashInput() {
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Amount ({account.currency})</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.common.amount', language)} ({account.currency})</label>
               <input
                 type="number" min="0" step="0.01"
                 value={account.amount}
@@ -113,7 +115,7 @@ export function CashInput() {
               )}>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-600">
-                    ≈ {formatCurrency(parseFloat(account.convertedToBase), preferences.baseCurrency, preferences.numberingFormat)} (base)
+                    ≈ {formatCurrency(parseFloat(account.convertedToBase), preferences.baseCurrency, preferences.numberingFormat)} ({t('asset.cash.base', language)})
                   </span>
                   {stale ? (
                     <span className="flex items-center gap-1 text-amber-600">
@@ -121,12 +123,12 @@ export function CashInput() {
                       {hoursAgo(account.rateTimestamp)}
                     </span>
                   ) : (
-                    <span className="text-gray-400">Rate: {parseFloat(account.exchangeRate).toFixed(4)} • Live ✓</span>
+                    <span className="text-gray-400">{t('asset.cash.rate', language)}: {parseFloat(account.exchangeRate).toFixed(4)} • {t('asset.cash.live', language)} ✓</span>
                   )}
                 </div>
                 {stale && (
                   <button onClick={fetchPrices} className="flex items-center gap-1 text-amber-700 underline">
-                    <RefreshCw className="h-3 w-3" /> Refresh rate
+                    <RefreshCw className="h-3 w-3" /> {t('asset.cash.refreshRate', language)}
                   </button>
                 )}
               </div>
@@ -139,7 +141,7 @@ export function CashInput() {
                   parseFloat(convertToBase(account.convertedToBase, preferences.baseCurrency, preferences.homeCurrency, exchangeRates.rates).converted.toFixed(2)),
                   preferences.homeCurrency,
                   preferences.numberingFormat
-                )} (home)
+                )} ({t('asset.cash.home', language)})
               </div>
             )}
 
@@ -155,7 +157,7 @@ export function CashInput() {
       {assets.cash.length > 0 && (
         <div className="rounded-xl bg-blue-50 px-4 py-3 text-sm">
           <div className="flex justify-between font-semibold">
-            <span>Total Cash</span>
+            <span>{t('asset.cash.total', language)}</span>
             <span className="text-blue-700">{formatCurrency(totalBase, preferences.baseCurrency, preferences.numberingFormat)}</span>
           </div>
         </div>

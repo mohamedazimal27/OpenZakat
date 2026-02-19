@@ -21,6 +21,7 @@ import type {
   MetalPriceCache,
   ZakatResult,
   RegionalPresetId,
+  LanguageCode,
 } from '@/types';
 import { DEFAULT_ASSETS, DEFAULT_LIABILITIES } from './defaults';
 import { getOrCreateStorage, saveStorage } from '@/lib/storage';
@@ -40,7 +41,7 @@ interface AppState {
   // ── Preferences ──────────────────────────────────────────
   preferences: Preferences;
   setPreferences: (prefs: Partial<Preferences>) => void;
-  applyPreset: (presetId: RegionalPresetId) => void;
+  applyPreset: (presetId: RegionalPresetId, languageOverride?: LanguageCode) => void;
 
   // ── Assets ───────────────────────────────────────────────
   assets: AssetState;
@@ -145,7 +146,7 @@ export const useStore = create<AppState>()(
       get().recalculate();
     },
 
-    applyPreset: (presetId) => {
+    applyPreset: (presetId, languageOverride) => {
       const preset = getPreset(presetId);
       if (!preset) return;
       set((state) => ({
@@ -153,6 +154,7 @@ export const useStore = create<AppState>()(
           ...state.preferences,
           baseCurrency: preset.baseCurrency,
           homeCurrency: preset.homeCurrency,
+          language: languageOverride ?? preset.language,
           goldUnit: preset.goldUnit,
           numberingFormat: preset.numberingFormat,
           regionalPreset: presetId,

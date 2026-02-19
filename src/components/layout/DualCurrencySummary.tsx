@@ -10,6 +10,7 @@ import { convertToBase } from '@/lib/calculation/currency';
 import { formatCurrency, formatTimestamp } from '@/utils/formatters';
 import { cn } from '@/components/common/cn';
 import { SORTED_CURRENCIES } from '@/data/currencies';
+import { LANGUAGE_OPTIONS, t } from '@/i18n';
 
 export function DualCurrencySummary() {
   const { result, preferences, exchangeRates, metalPrices, fetchPrices, ratesLoading, resetSession, setShowMethodologyModal, setShowPresetModal, setPreferences } = useStore();
@@ -17,6 +18,7 @@ export function DualCurrencySummary() {
   const base = preferences.baseCurrency;
   const home = preferences.homeCurrency;
   const fmt = preferences.numberingFormat;
+  const language = preferences.language;
 
   const toHome = (baseAmount: string) => {
     if (!home || home === base) return null;
@@ -46,7 +48,7 @@ export function DualCurrencySummary() {
       {/* Header with inline currency selectors */}
       <div className="border-b px-4 py-3 space-y-2">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-wide text-gray-400">Live Summary</p>
+          <p className="text-xs font-bold uppercase tracking-wide text-gray-400">{t('summary.live', language)}</p>
           <div className="flex gap-1.5">
             <button onClick={() => setShowPresetModal(true)} title="Quick presets (Indian in Singapore, etc.)" className="rounded-lg p-1.5 hover:bg-gray-100">
               <Globe className="h-4 w-4 text-gray-500" />
@@ -65,7 +67,7 @@ export function DualCurrencySummary() {
         {/* Inline base + home currency selectors */}
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-gray-400 font-medium">Base Currency</label>
+            <label className="text-xs text-gray-400 font-medium">{t('summary.baseCurrency', language)}</label>
             <select
               value={base}
               onChange={(e) => {
@@ -79,7 +81,7 @@ export function DualCurrencySummary() {
             </select>
           </div>
           <div>
-            <label className="text-xs text-gray-400 font-medium">Home Currency <span className="font-normal">(optional)</span></label>
+            <label className="text-xs text-gray-400 font-medium">{t('summary.homeCurrency', language)} <span className="font-normal">{t('summary.optional', language)}</span></label>
             <select
               value={home ?? ''}
               onChange={(e) => {
@@ -87,12 +89,28 @@ export function DualCurrencySummary() {
               }}
               className="mt-0.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-2 py-1.5 text-xs text-gray-700 focus:border-emerald-400 focus:outline-none"
             >
-              <option value="">— None —</option>
+              <option value="">— {t('summary.none', language)} —</option>
               {SORTED_CURRENCIES.map((c) => (
                 <option key={c.code} value={c.code}>{c.flag} {c.code} — {c.name}</option>
               ))}
             </select>
           </div>
+        </div>
+        <div>
+          <label className="text-xs text-gray-400 font-medium">{t('summary.language', language)}</label>
+          <select
+            value={language}
+            onChange={(e) => {
+              setPreferences({ language: e.target.value as typeof language });
+            }}
+            className="mt-0.5 w-full rounded-lg border border-gray-200 bg-gray-50 px-2 py-1.5 text-xs text-gray-700 focus:border-emerald-400 focus:outline-none"
+          >
+            {LANGUAGE_OPTIONS.map((option) => (
+              <option key={option.code} value={option.code}>
+                {option.nativeLabel} ({option.label})
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -100,11 +118,11 @@ export function DualCurrencySummary() {
       <div className="px-4 py-3 divide-y divide-gray-100">
         {result ? (
           <>
-            <Row label="Total Assets" base={result.totalAssets} />
-            <Row label="Liabilities" base={result.totalLiabilities} negative />
+            <Row label={t('summary.totalAssets', language)} base={result.totalAssets} />
+            <Row label={t('summary.liabilities', language)} base={result.totalLiabilities} negative />
             <div className="py-1.5">
               <div className="flex items-start justify-between">
-                <span className="text-sm font-semibold text-gray-800">Net Wealth</span>
+                <span className="text-sm font-semibold text-gray-800">{t('summary.netWealth', language)}</span>
                 <div className="text-right">
                   <div className="text-sm font-bold text-gray-900">{formatCurrency(parseFloat(result.netWealth), base, fmt)}</div>
                   {toHome(result.netWealth) !== null && (
@@ -116,11 +134,11 @@ export function DualCurrencySummary() {
             <div className="py-1.5">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-sm text-gray-600">Nisab ({result.methodology.nisabBasis})</span>
+                  <span className="text-sm text-gray-600">{t('summary.nisab', language)} ({result.methodology.nisabBasis})</span>
                   <div className="mt-0.5">
                     {result.nisabMet
-                      ? <span className="text-xs text-emerald-600 font-medium">✅ Met</span>
-                      : <span className="text-xs text-red-500 font-medium">❌ Not Met</span>
+                      ? <span className="text-xs text-emerald-600 font-medium">✅ {t('summary.met', language)}</span>
+                      : <span className="text-xs text-red-500 font-medium">❌ {t('summary.notMet', language)}</span>
                     }
                   </div>
                 </div>
@@ -133,23 +151,23 @@ export function DualCurrencySummary() {
             {/* Zakat Due */}
             <div className="pt-2 pb-1">
               <div className="rounded-xl bg-emerald-600 px-4 py-3 text-white">
-                <p className="text-xs font-medium opacity-80">Zakat Due (2.5%)</p>
+                <p className="text-xs font-medium opacity-80">{t('summary.zakatDue', language)}</p>
                 <p className="mt-0.5 text-2xl font-bold">{formatCurrency(parseFloat(result.zakatDue), base, fmt)}</p>
                 {toHome(result.zakatDue) !== null && (
                   <p className="text-xs opacity-75 mt-0.5">≈ {formatCurrency(toHome(result.zakatDue)!, home!, fmt)}</p>
                 )}
                 {!result.nisabMet && (
-                  <p className="text-xs opacity-75 mt-1">Nisab not met — no Zakat due</p>
+                  <p className="text-xs opacity-75 mt-1">{t('summary.nisabNotMet', language)}</p>
                 )}
                 {result.methodology.hawlCheck === 'no' && (
-                  <p className="text-xs opacity-75 mt-1">Hawl incomplete — no Zakat due yet</p>
+                  <p className="text-xs opacity-75 mt-1">{t('summary.hawlIncomplete', language)}</p>
                 )}
               </div>
             </div>
           </>
         ) : (
           <div className="py-8 text-center text-sm text-gray-400">
-            Add assets to see your Zakat calculation
+            {t('summary.addAssets', language)}
           </div>
         )}
       </div>
@@ -157,7 +175,7 @@ export function DualCurrencySummary() {
       {/* Footer */}
       <div className="border-t px-4 py-2 text-xs text-gray-400">
         Gold: {formatCurrency(parseFloat(metalPrices.gold) * (parseFloat(exchangeRates.rates[base] ?? '1') / 1), base, fmt, 2)}/g
-        {' · '}Updated: {formatTimestamp(metalPrices.timestamp).split(',')[0]}
+        {' · '}{t('summary.updated', language)}: {formatTimestamp(metalPrices.timestamp).split(',')[0]}
       </div>
     </div>
   );

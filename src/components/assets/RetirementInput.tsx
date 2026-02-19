@@ -4,6 +4,7 @@ import { useStore } from '@/store';
 import { formatCurrency } from '@/utils/formatters';
 import { safeDecimal, Decimal } from '@/utils/decimal';
 import type { RetirementAccountType } from '@/types';
+import { t } from '@/i18n';
 
 const ACCOUNT_TYPES: { value: RetirementAccountType; label: string }[] = [
   { value: '401k', label: '401(k)' },
@@ -15,6 +16,7 @@ const ACCOUNT_TYPES: { value: RetirementAccountType; label: string }[] = [
 
 export function RetirementInput() {
   const { assets, addRetirement, updateRetirement, removeRetirement, preferences } = useStore();
+  const language = preferences.language;
 
   const handleAdd = () => {
     addRetirement({ accountType: 'provident-fund', balance: '', penaltyPercent: '0', taxPercent: '0', accessible: true });
@@ -31,14 +33,14 @@ export function RetirementInput() {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-gray-900">🏦 Retirement Accounts</h3>
+        <h3 className="text-base font-semibold text-gray-900">🏦 {t('asset.retirement.title', language)}</h3>
         <button onClick={handleAdd} className="flex items-center gap-1.5 rounded-lg bg-purple-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-purple-700">
-          <Plus className="h-3.5 w-3.5" /> Add Account
+          <Plus className="h-3.5 w-3.5" /> {t('asset.retirement.add', language)}
         </button>
       </div>
 
       {assets.retirement.length === 0 && (
-        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">No retirement accounts added yet</div>
+        <div className="rounded-xl border-2 border-dashed border-gray-200 p-6 text-center text-sm text-gray-400">{t('asset.retirement.empty', language)}</div>
       )}
 
       {assets.retirement.map((account) => {
@@ -48,24 +50,24 @@ export function RetirementInput() {
           <div key={account.id} className="rounded-xl border border-gray-200 bg-white p-4 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Account Type</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.retirement.accountType', language)}</label>
                 <select value={account.accountType} onChange={(e) => updateRetirement(account.id, { accountType: e.target.value as RetirementAccountType })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
                   {ACCOUNT_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Balance ({preferences.baseCurrency})</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.retirement.balance', language)} ({preferences.baseCurrency})</label>
                 <input type="number" min="0" value={account.balance} onChange={(e) => updateRetirement(account.id, { balance: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="0" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Early Withdrawal Penalty (%)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.retirement.penalty', language)}</label>
                 <input type="number" min="0" max="100" value={account.penaltyPercent} onChange={(e) => updateRetirement(account.id, { penaltyPercent: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="0" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Tax Rate (%)</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('asset.retirement.tax', language)}</label>
                 <input type="number" min="0" max="100" value={account.taxPercent} onChange={(e) => updateRetirement(account.id, { taxPercent: e.target.value })}
                   className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="0" />
               </div>
@@ -74,22 +76,22 @@ export function RetirementInput() {
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={account.accessible} onChange={(e) => updateRetirement(account.id, { accessible: e.target.checked })}
                 className="accent-emerald-600" />
-              <span className="text-gray-700">Accessible (FCNA method applies)</span>
+              <span className="text-gray-700">{t('asset.retirement.accessible', language)}</span>
             </label>
 
             {isInvalid && (
               <div className="flex items-center gap-1.5 text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2">
-                <Info className="h-3.5 w-3.5" /> Penalty + Tax cannot be ≥ 100%
+                <Info className="h-3.5 w-3.5" /> {t('asset.retirement.invalid', language)}
               </div>
             )}
 
             {!isInvalid && parseFloat(account.balance) > 0 && (
               <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs">
                 <div className="flex items-center gap-1.5 text-gray-600 mb-0.5">
-                  <Info className="h-3 w-3" /> FCNA: balance × (1 - penalty - tax)
+                  <Info className="h-3 w-3" /> {t('asset.retirement.formula', language)}
                 </div>
                 <div className="font-semibold text-emerald-700">
-                  Net Zakatable: {formatCurrency(netValue, preferences.baseCurrency, preferences.numberingFormat)}
+                  {t('asset.retirement.netZakatable', language)}: {formatCurrency(netValue, preferences.baseCurrency, preferences.numberingFormat)}
                 </div>
               </div>
             )}
