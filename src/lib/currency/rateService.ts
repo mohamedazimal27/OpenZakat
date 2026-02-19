@@ -53,7 +53,8 @@ export function getCommittedRates(): ExchangeRateCache {
   return {
     rates,
     base: 'USD',
-    timestamp: committedRates.timestamp,
+    // API returns time_last_updated (Unix timestamp), convert to ISO string
+    timestamp: new Date((committedRates as unknown as { time_last_updated: number }).time_last_updated * 1000).toISOString(),
     source: 'committed',
   };
 }
@@ -135,11 +136,12 @@ export async function fetchLiveCryptoPrices(): Promise<Record<string, string>> {
 
 /**
  * Get committed fallback crypto prices.
+ * Note: crypto.json has structure { "bitcoin": { "usd": 67133 }, ... }
  */
 export function getCommittedCryptoPrices(): Record<string, string> {
   const prices: Record<string, string> = {};
-  for (const [key, value] of Object.entries(committedCrypto.prices)) {
-    prices[key] = String(value);
+  for (const [coinId, priceObj] of Object.entries(committedCrypto as unknown as Record<string, { usd: number }>)) {
+    prices[coinId] = String(priceObj.usd);
   }
   return prices;
 }
