@@ -24,4 +24,19 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* CLS Prevention: Contain layout shifts within components */
+  .contain-layout {
+    contain: layout style;
+  }
+
+  /* CLS Prevention: Reserve space for dynamic content */
+  .min-h-selectors {
+    min-height: 120px;
+  }
+
+  /* Smooth transitions for height changes to reduce perceived shift */
+  .transition-layout {
+    transition: height 0.2s ease-out, min-height 0.2s ease-out;
+  }
 }

@@ -44,9 +44,9 @@ export function DualCurrencySummary() {
   };
 
   return (
-    <div className="sticky top-4 rounded-2xl border border-gray-200 bg-white shadow-lg">
-      {/* Header with inline currency selectors */}
-      <div className="border-b px-4 py-3 space-y-2">
+    <div className="sticky top-4 rounded-2xl border border-gray-200 bg-white shadow-lg contain-layout">
+      {/* Header with inline currency selectors - min-height to prevent CLS */}
+      <div className="border-b px-4 py-3 space-y-2 min-h-selectors">
         <div className="flex items-center justify-between">
           <p className="text-xs font-bold uppercase tracking-wide text-gray-400">{t('summary.live', language)}</p>
           <div className="flex gap-1.5">

@@ -163,7 +163,7 @@ export default function App() {
           </div>
 
           {/* ── Right: Live Summary (desktop only) ──────── */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:block contain-layout">
             <DualCurrencySummary />
           </div>
 
@@ -171,7 +171,7 @@ export default function App() {
 
         {/* ── Mobile: Full Summary below inputs ─────────── */}
         {/* Users can scroll here for full currency/methodology settings on mobile */}
-        <div className="mt-4 lg:hidden">
+        <div className="mt-4 lg:hidden contain-layout">
           <DualCurrencySummary />
         </div>
       </div>
