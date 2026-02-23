@@ -1,9 +1,9 @@
 {
-  "price_gram_24k": 85.50,
-  "price_gram_22k": 78.38,
-  "price_gram_21k": 74.81,
-  "price_gram_18k": 64.13,
+  "price_gram_24k": 92.50,
+  "price_gram_22k": 84.75,
+  "price_gram_21k": 80.94,
+  "price_gram_18k": 69.38,
   "currency": "USD",
-  "timestamp": "2026-02-18T00:00:00Z",
-  "source": "committed-fallback"
+  "timestamp": "2026-02-24T00:00:00Z",
+  "source": "committed-manual"
 }
