@@ -26,7 +26,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
   const weight = parseFloat(holding.weight) || 0;
   const customRatio = holding.puritySource === 'custom' && holding.customKarat
     ? parseFloat(holding.customKarat) : undefined;
-  const { grossGrams, pureGrams } = calcPureGoldGrams(weight, holding.unit, holding.puritySource, 22, customRatio);
+  const { grossGrams, pureGrams, purityRatio } = calcPureGoldGrams(weight, holding.unit, holding.puritySource, 22, customRatio);
 
   // Value in base currency
   const usdToBase = safeDecimal(exchangeRates.rates[preferences.baseCurrency] ?? '1');
@@ -116,7 +116,7 @@ function GoldHoldingCard({ holding }: { holding: GoldHolding }) {
           {weight > 0 && (
             <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-600 space-y-0.5">
               <div>{weight} {holding.unit} × {GOLD_UNIT_OPTIONS.find(u => u.unit === holding.unit)?.gramsPerUnit}g = {grossGrams.toFixed(3)}g {t('asset.gold.breakdownGross', language)}</div>
-              <div>{grossGrams.toFixed(3)}g × {((customRatio ?? 0.916) * 100).toFixed(1)}% = {pureGrams.toFixed(3)}g {t('asset.gold.breakdownPure', language)}</div>
+              <div>{grossGrams.toFixed(3)}g × {(purityRatio * 100).toFixed(1)}% = {pureGrams.toFixed(3)}g {t('asset.gold.breakdownPure', language)}</div>
               <div className="font-semibold text-emerald-700">
                 {t('asset.common.value', language)}: {formatCurrency(valueBase.toNumber(), preferences.baseCurrency, preferences.numberingFormat)}
               </div>

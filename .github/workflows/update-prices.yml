@@ -21,19 +21,57 @@ jobs:
           curl -sf "https://api.exchangerate-api.com/v4/latest/USD" \
             -o src/data/prices/rates.json || echo '{"rates":{}}' > src/data/prices/rates.json
 
-      - name: Fetch Gold & Silver Prices (GoldAPI)
+      - name: Fetch Gold & Silver Prices (MetalPriceAPI)
         env:
-          GOLD_API_KEY: ${{ secrets.GOLD_API_KEY }}
+          METALPRICEAPI_KEY: ${{ secrets.METALPRICEAPI_KEY }}
         run: |
-          if [ -n "$GOLD_API_KEY" ]; then
-            curl -sf -H "x-access-token: $GOLD_API_KEY" \
-              "https://www.goldapi.io/api/XAU/USD" -o src/data/prices/gold.json \
-              || echo '{"price_gram_22k":82.5}' > src/data/prices/gold.json
-            curl -sf -H "x-access-token: $GOLD_API_KEY" \
-              "https://www.goldapi.io/api/XAG/USD" -o src/data/prices/silver.json \
-              || echo '{"price_gram":0.96}' > src/data/prices/silver.json
+          if [ -n "$METALPRICEAPI_KEY" ]; then
+            curl -sf "https://api.metalpriceapi.com/v1/latest?api_key=$METALPRICEAPI_KEY&base=USD&currencies=XAU,XAG" \
+              -o /tmp/metalpriceapi.json
+
+            node -e '
+              const fs = require("fs");
+              const raw = fs.readFileSync("/tmp/metalpriceapi.json", "utf8");
+              const data = JSON.parse(raw);
+              const rates = data.rates || {};
+
+              // MetalPriceAPI common shape with base=USD is:
+              // rates.XAU = ounces of gold per 1 USD
+              // rates.XAG = ounces of silver per 1 USD
+              const xauPerUsd = rates.XAU ?? rates.USDXAU;
+              const xagPerUsd = rates.XAG ?? rates.USDXAG;
+
+              if (!xauPerUsd || !xagPerUsd) {
+                throw new Error("Missing XAU/XAG rates from MetalPriceAPI response");
+              }
+
+              const usdPerOunceGold = 1 / Number(xauPerUsd);
+              const usdPerOunceSilver = 1 / Number(xagPerUsd);
+              const OUNCE_TO_GRAM = 31.1034768;
+
+              const gram24 = usdPerOunceGold / OUNCE_TO_GRAM;
+              const goldOut = {
+                price_gram_24k: Number(gram24.toFixed(6)),
+                price_gram_22k: Number((gram24 * 22 / 24).toFixed(6)),
+                price_gram_21k: Number((gram24 * 21 / 24).toFixed(6)),
+                price_gram_18k: Number((gram24 * 18 / 24).toFixed(6)),
+                currency: "USD",
+                timestamp: new Date().toISOString(),
+                source: "metalpriceapi",
+              };
+
+              const silverOut = {
+                price_gram: Number((usdPerOunceSilver / OUNCE_TO_GRAM).toFixed(6)),
+                currency: "USD",
+                timestamp: new Date().toISOString(),
+                source: "metalpriceapi",
+              };
+
+              fs.writeFileSync("src/data/prices/gold.json", JSON.stringify(goldOut, null, 2) + "\n");
+              fs.writeFileSync("src/data/prices/silver.json", JSON.stringify(silverOut, null, 2) + "\n");
+            '
           else
-            echo "No GOLD_API_KEY — keeping committed fallback prices"
+            echo "No METALPRICEAPI_KEY — keeping committed gold/silver prices"
           fi
 
       - name: Fetch Crypto Prices (CoinGecko free tier)
