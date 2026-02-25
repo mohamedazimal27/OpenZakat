@@ -84,20 +84,22 @@ jobs:
       - name: Write last-update timestamp
         run: date -u +"%Y-%m-%dT%H:%M:%SZ" > src/data/prices/last-update.txt
 
-      - name: Commit prices (amend if previous commit was a price update)
-        run: |
-          git config user.name "GitHub Actions [Price Bot]"
-          git config user.email "action@github.com"
-          git add src/data/prices/
-          if git diff --cached --quiet; then
-            echo "No price changes detected — skip commit"
-            exit 0
-          fi
-          LAST_MSG=$(git log -1 --pretty=%B)
-          if echo "$LAST_MSG" | grep -q "^Daily price update:"; then
-            git commit --amend -m "Daily price update: $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push --force-with-lease
-          else
-            git commit -m "Daily price update: $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
-          fi
+      - name: Create Pull Request with Price Updates
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: |
+            src/data/prices/
+          commit-message: "chore(prices): daily market data update"
+          branch: "bot/daily-price-update"
+          delete-branch: true
+          title: "chore(prices): daily market data update"
+          body: |
+            Automated daily update of:
+            - FX rates
+            - Gold/Silver prices
+            - Crypto prices
+            - last-update timestamp
+          labels: |
+            automated
+            prices
