@@ -101,6 +101,3 @@ jobs:
             - Gold/Silver prices
             - Crypto prices
             - last-update timestamp
-          labels: |
-            automated
-            prices
