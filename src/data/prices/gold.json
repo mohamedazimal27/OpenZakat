@@ -1,9 +1,9 @@
 {
-  "price_gram_24k": 150.995356,
-  "price_gram_22k": 138.41241,
-  "price_gram_21k": 132.120936,
-  "price_gram_18k": 113.246517,
+  "price_gram_24k": 133.311937,
+  "price_gram_22k": 122.202609,
+  "price_gram_21k": 116.647945,
+  "price_gram_18k": 99.983953,
   "currency": "USD",
-  "timestamp": "2026-05-15T08:46:56.299Z",
+  "timestamp": "2026-10-10T11:56:08.250Z",
   "source": "metalpriceapi"
 }
